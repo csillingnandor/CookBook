@@ -1,0 +1,40 @@
+.recipe-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* nagyobb távolság a kártyák között */
+  margin-top: 2rem;
+  align-items: center; /* középre igazítja a kártyákat */
+}
+
+.recipe-grid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+/* Ha van kiválasztott recept → a többi elhalványul */
+.recipe-grid.selected-active .recipe-card {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.recipe-grid.selected-active .recipe-card.selected-card {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ingredients-container {
+  margin-top: 400px; /* hely a kiúszó kártyának */
+  background: #ffffff22;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .recipe-grid {
+    max-width: 900px;
+    gap: 2rem;
+  }
+}
