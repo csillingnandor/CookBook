@@ -1,6 +1,6 @@
 .recipe-card {
   padding: 1rem;
-  background: #f1f1f1;
+  background: #4387e0;
   border-radius: 0.75rem;
   cursor: pointer;
   transition: all 0.4s ease;
@@ -8,12 +8,14 @@
 }
 
 .recipe-card.selected-card {
-  position: fixed;    
+  position: fixed;
   top: 20px;
   left: 20px;
   z-index: 999;
-  transform: scale(1.02);
+  transform: scale(1.03);
+  transition: all 0.4s ease;
 }
+
 
 .recipe-card:hover {
   border-color: #000;
@@ -37,4 +39,14 @@
     color: #ddd;
   }
 }
+
+.recipe-card.animate-back {
+  position: fixed;
+  top: auto;
+  left: auto;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
 

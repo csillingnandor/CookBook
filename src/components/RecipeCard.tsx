@@ -3,27 +3,33 @@ import { Recipe } from "../types/Recipe";
 import { IngredientsBox } from "./IngredientsBox";
 
 interface RecipeCardProps {
-  recipe: Recipe;
-  onClick: () => void;
-  isSelected: boolean;
+    recipe: Recipe;
+    onClick: () => void;
+    isSelected: boolean;
+    isAnimatingOut: boolean;
 }
 
-export const RecipeCard = ({ recipe, onClick, isSelected }: RecipeCardProps) => {
-  return (
-    <div
-      className={`recipe-card ${isSelected ? "selected-card" : ""}`}
-      onClick={onClick}
-    >
-      <img src={recipe.image} alt={recipe.title} className="recipe-image" />
 
-      <h3>{recipe.title}</h3>
-      <p>{recipe.description}</p>
+export const RecipeCard = ({ recipe, onClick, isSelected, isAnimatingOut }: RecipeCardProps) => {
+    return (
+        <div
+            className={`recipe-card
+    ${isSelected ? "selected-card" : ""}
+    ${isAnimatingOut ? "animate-back" : ""}
+  `}
+            onClick={onClick}
+        >
 
-      
-      <IngredientsBox
-        ingredients={recipe.ingredients}
-        visible={isSelected}
-      />
-    </div>
-  );
+            <img src={recipe.image} alt={recipe.title} className="recipe-image" />
+
+            <h3>{recipe.title}</h3>
+            <p>{recipe.description}</p>
+
+
+            <IngredientsBox
+                ingredients={recipe.ingredients}
+                visible={isSelected}
+            />
+        </div>
+    );
 };
