@@ -3,42 +3,31 @@
   flex-direction: column;
   gap: 2rem;
   margin-top: 2rem;
-  align-items: center;
+  margin-bottom: 3rem;
+  max-width: 1400px;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .recipe-list-container h1 {
   margin: 0;
 }
 
-/* 3 oszlopos grid, nagyobb hézaggal a kártyák között */
+/* LISTA nézet – 3 oszlopos grid */
+
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 3rem;     /* vízszintes távolság */
-  row-gap: 2.5rem;      /* függőleges távolság */
+  gap: 2rem;
   width: 100%;
-  max-width: 1200px;
-  padding: 1.5rem 2rem;
-  justify-items: center;
 }
 
-/* Ha van kiválasztott kártya → a többi elbújik */
-.recipe-grid.recipe-grid--has-selected .recipe-card {
-  opacity: 0;
-  pointer-events: none;
-}
+/* Vissza gomb a detail nézethez */
 
-/* ...kivéve a kiválasztottat (floating) */
-.recipe-grid.recipe-grid--has-selected .recipe-card.recipe-card--floating {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Vissza gomb – fixen a jobb felső sarokban */
 .back-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  align-self: flex-end;
   padding: 0.5rem 1.25rem;
   background: #ffffff;
   border: 2px solid #222;
@@ -46,7 +35,6 @@
   cursor: pointer;
   font-size: 1rem;
   font-weight: 500;
-  z-index: 1300;
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -56,14 +44,36 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Reszponzív töréspontok */
-@media (max-width: 1000px) {
+/* DETAIL nézet – három oszlop 2:3:1 aránnyal */
+
+.detail-layout {
+  --gap: 2rem;
+
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr;  /* 2:3:1 arány */
+  column-gap: var(--gap);
+  width: 100%;
+  align-items: flex-start;
+}
+
+.detail-col {
+  width: 100%;
+}
+
+/* kisebb képernyőn egymás alatt */
+
+@media (max-width: 1100px) {
   .recipe-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .detail-layout {
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .recipe-grid {
     grid-template-columns: 1fr;
   }

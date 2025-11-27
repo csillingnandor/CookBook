@@ -7,7 +7,6 @@ interface InstructionListProps {
 }
 
 export const InstructionList = ({ recipe }: InstructionListProps) => {
-  // Ha nincs kiválasztott recept vagy nincsenek lépések → semmi se jelenjen meg
   if (!recipe || !recipe.instructions || recipe.instructions.length === 0) {
     return null;
   }
