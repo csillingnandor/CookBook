@@ -47,14 +47,22 @@
 /* DETAIL nézet – három oszlop 2:3:1 aránnyal */
 
 .detail-layout {
-  --gap: 2rem;
-
+  --gap: 1.5rem;                      /* kisebb hézag, hogy közelebb kerüljön a szélekhez */
+  
   display: grid;
-  grid-template-columns: 2fr 3fr 1fr;  /* 2:3:1 arány */
+  grid-template-columns: 3fr 7fr 2fr; /* 2 : 4 : 1 arány */
   column-gap: var(--gap);
+  
   width: 100%;
+  max-width: 1500px;                  /* több helyet engedünk neki */
+  
+  padding: 0 0.5rem 3rem 0.5rem;          /* kisebb oldalsó padding → közelebb a szélekhez */
+  margin: 0 auto;
+  
   align-items: flex-start;
+  box-sizing: border-box;
 }
+
 
 .detail-col {
   width: 100%;

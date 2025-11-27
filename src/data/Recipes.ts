@@ -2,23 +2,23 @@ import { Recipe } from "../types/Recipe";
 
 export const recipes: Recipe[] = [
   {
-  id: 1,
-  title: "Paprikás csirke",
-  description: "Klasszikus magyar étel tejföllel.",
-  image: "https://picsum.photos/300/180?random=1",
-  ingredients: [
-    { name: "Csirke", amount: 1, unit: "kg" },
-    { name: "Paprika", amount: 2, unit: "db" },
-    { name: "Hagyma", amount: 1, unit: "db" }
-  ],
-  instructions: [
-    "A csirkét megtisztítjuk és feldaraboljuk.",
-    "A hagymát apróra vágjuk és üvegesre pirítjuk.",
-    "Hozzáadjuk a paprikát, majd a csirkét, fűszerezzük és puhára főzzük.",
-    "A végén belekeverjük a tejfölt és még egyszer felforraljuk."
-  ]
-}
-,
+    id: 1,
+    title: "Paprikás csirke",
+    description: "Klasszikus magyar étel tejföllel.",
+    image: "https://picsum.photos/300/180?random=1",
+    ingredients: [
+      { name: "Csirke", amount: 1, unit: "kg" },
+      { name: "Paprika", amount: 2, unit: "db" },
+      { name: "Hagyma", amount: 1, unit: "db" }
+    ],
+    instructions: [
+      "A csirkét megtisztítjuk és feldaraboljuk.",
+      "A hagymát apróra vágjuk és üvegesre pirítjuk.",
+      "Hozzáadjuk a paprikát, majd a csirkét, fűszerezzük és puhára főzzük.",
+      "A végén belekeverjük a tejfölt és még egyszer felforraljuk."
+    ]
+  }
+  ,
   {
     id: 2,
     title: "Gulyásleves",
@@ -53,7 +53,19 @@ export const recipes: Recipe[] = [
       { name: "Darálthús", amount: 400, unit: "g" },
       { name: "Paradicsomszósz", amount: 300, unit: "ml" },
       { name: "Lasagne lap", amount: 12, unit: "db" }
+    ],
+    instructions: [
+      "A hagymát finomra vágjuk, majd kevés olajon üvegesre pirítjuk.",
+      "Hozzáadjuk a darált húst és fehéredésig pirítjuk.",
+      "Beletesszük a paradicsomszószt, sót, borsot, oregánót és kb. 20 percig főzzük.",
+      "A besamel mártáshoz megolvasztjuk a vajat, hozzákeverjük a lisztet, majd fokozatosan felöntjük tejjel.",
+      "A besamelt sűrűre főzzük, sózzuk, borsozzuk, szerecsendióval ízesítjük.",
+      "Egy tepsit kiolajozunk, az aljára lasagne lapokat teszünk.",
+      "Erre jön a hússzósz, majd egy réteg besamel, végül reszelt sajt.",
+      "A rétegezést addig folytatjuk, amíg elfogynak az alapanyagok.",
+      "A tetejére sok sajtot szórunk, majd 180°C-on 35–40 percig sütjük."
     ]
+
   },
 
   {
@@ -65,7 +77,18 @@ export const recipes: Recipe[] = [
       { name: "Római saláta", amount: 1, unit: "fej" },
       { name: "Csirkemell", amount: 200, unit: "g" },
       { name: "Parmezán", amount: 30, unit: "g" }
+    ],
+    instructions: [
+      "A csirkemellet sózzuk, borsozzuk és kevés olajon serpenyőben aranybarnára sütjük.",
+      "Hagyjuk hűlni, majd vékony csíkokra szeleteljük.",
+      "A római salátát megmossuk, megszárítjuk és darabokra tépkedjük.",
+      "A krutont egy kis serpenyőben megpirítjuk (vagy használhatunk kész krutont is).",
+      "A caesar öntetet egy tálban összekeverjük: majonéz, citromlé, reszelt parmezán, fokhagyma, só, bors.",
+      "A salátát összeforgatjuk az öntettel.",
+      "Ráhelyezzük a csirkecsíkokat és a krutont.",
+      "A tetejére még egy kevés parmezánt reszelünk és tálaljuk."
     ]
+
   },
 
   {
