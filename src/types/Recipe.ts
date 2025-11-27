@@ -6,4 +6,7 @@ export interface Recipe {
   description: string;
   image?: string;
   ingredients: Ingredient[];
+
+  // ÚJ: opcionális elkészítési lépések
+  instructions?: string[];
 }

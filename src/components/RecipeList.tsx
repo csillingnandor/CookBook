@@ -1,6 +1,7 @@
 import { useState } from "preact/hooks";
 import { Recipe } from "../types/Recipe";
 import { RecipeCard } from "./RecipeCard";
+import { InstructionList } from "./InstructionList";
 import "./RecipeList.css";
 
 interface RecipeListProps {
@@ -9,46 +10,46 @@ interface RecipeListProps {
 
 export const RecipeList = ({ recipes }: RecipeListProps) => {
   const [selected, setSelected] = useState<Recipe | null>(null);
-  const [animatingOut, setAnimatingOut] = useState(false);
 
+  const handleCardClick = (recipe: Recipe) => {
+    if (selected && selected.id === recipe.id) {
+      setSelected(null);
+    } else {
+      setSelected(recipe);
+    }
+  };
+
+  const handleBack = () => {
+    setSelected(null);
+  };
 
   return (
     <div className="recipe-list-container">
-
       {!selected && <h1>Receptlista</h1>}
 
       {selected && (
-        <button
-          className="back-button"
-          onClick={() => {
-            setAnimatingOut(true);
-            setSelected(null);  
-            setTimeout(() => {
-              setAnimatingOut(false);
-            }, 400);
-          }}
-
-        >
+        <button className="back-button" onClick={handleBack}>
           ← Vissza
         </button>
       )}
 
-
-
-
-
-      <div className={selected ? "recipe-grid selected-active" : "recipe-grid"}>
+      <div
+        className={`recipe-grid ${selected ? "recipe-grid--has-selected" : ""
+          }`}
+      >
         {recipes.map((recipe) => (
           <RecipeCard
             key={recipe.id}
             recipe={recipe}
-            onClick={() => setSelected(recipe)}
+            onClick={() => handleCardClick(recipe)}
             isSelected={selected?.id === recipe.id}
-            isAnimatingOut={animatingOut}
           />
-
         ))}
       </div>
+
+
+      {/* Középen a kiválasztott recept mellett jelenik meg */}
+      <InstructionList recipe={selected} />
     </div>
   );
 };
