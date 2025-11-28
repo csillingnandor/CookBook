@@ -237,3 +237,15 @@
   border-radius: 8px;
   border: 1px solid #ddd;
 }
+
+.new-recipe-form select {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font: inherit;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #222;
+}
+

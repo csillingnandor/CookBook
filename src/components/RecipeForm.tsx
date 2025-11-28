@@ -9,17 +9,22 @@ interface RecipeFormProps {
     onSave: (data: Omit<Recipe, "id">, idToUpdate?: number | null) => void;
     onClose: () => void;
     initialRecipe?: Recipe | null;
+    categories: string[];            // ⬅️ ÚJ
 }
+
 
 export const RecipeForm = ({
     onSave,
     onClose,
     initialRecipe,
+    categories
 }: RecipeFormProps) => {
     const isEditMode = !!initialRecipe;
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [category, setCategory] = useState<string>("");
+
 
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [ingredientName, setIngredientName] = useState("");
@@ -39,6 +44,7 @@ export const RecipeForm = ({
             setIngredients([]);
             setInstructions([]);
             setImagePreview(undefined);
+            setCategory("");
             setIngredientName("");
             setIngredientAmount("");
             setIngredientUnit("");
@@ -51,6 +57,7 @@ export const RecipeForm = ({
         setIngredients(initialRecipe.ingredients ?? []);
         setInstructions(initialRecipe.instructions ?? []);
         setImagePreview(initialRecipe.image);
+        setCategory(initialRecipe.category ?? "");
         setIngredientName("");
         setIngredientAmount("");
         setIngredientUnit("");
@@ -130,6 +137,7 @@ export const RecipeForm = ({
             ingredients,
             instructions,
             image: imagePreview ?? initialRecipe?.image, // string vagy undefined
+            category: category || undefined,
         };
 
 
@@ -168,6 +176,26 @@ export const RecipeForm = ({
             </div>
 
             <div className="form-row">
+                <label>
+                    Kategória
+                    <select
+                        value={category}
+                        onChange={(e) =>
+                            setCategory((e.target as HTMLSelectElement).value)
+                        }
+                    >
+                        <option value="">Nincs kategória</option>
+                        {categories.map((cat) => (
+                            <option key={cat} value={cat}>
+                                {cat}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+            </div>
+
+
+            <div className="form-row">
                 <label>Kép (opcionális)</label>
                 <input
                     type="file"
@@ -183,10 +211,6 @@ export const RecipeForm = ({
                 )}
             </div>
 
-            {/* Hozzávalók + instrukciók blokk marad, ahogy korábban beállítottuk */}
-            {/* ... ide jön a már meglévő ingredients + instructions JSX-ed ... */}
-
-            {/* (A korábbi ingredients / instructions JSX-edet hagyd változatlanul) */}
 
             {/* HOZZÁVALÓK */}
             <div className="form-row">

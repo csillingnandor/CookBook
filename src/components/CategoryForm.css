@@ -1,0 +1,39 @@
+/* ---- Add Chooser modal stílusok ---- */
+
+.add-chooser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.add-chooser h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.add-chooser-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.add-chooser-buttons button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  background: #ffb347;
+  color: white;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.add-chooser-buttons button:hover {
+  background: #ffa726;
+  transform: translateY(-2px);
+}
