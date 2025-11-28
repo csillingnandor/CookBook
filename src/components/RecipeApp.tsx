@@ -8,6 +8,12 @@ import { RecipeDetails } from "./RecipeDetails";
 import { RecipeForm } from "./RecipeForm";
 import "./RecipeList.css";
 
+import img1 from "../assets/recipe_pictures/recipe_1.jpg";
+import img2 from "../assets/recipe_pictures/recipe_2.jpg";
+import img3 from "../assets/recipe_pictures/recipe_3.jpg";
+
+const FALLBACK_IMAGES = [img1, img2, img3];
+
 interface RecipeAppProps {
     recipes: Recipe[];
 }
@@ -66,6 +72,27 @@ export const RecipeApp = ({ recipes }: RecipeAppProps) => {
         }
     }, [selected]);
 
+    useEffect(() => {
+        // ha nyitva a form, tiltsuk a body scrollt
+        if (isAdding) {
+            const originalOverflow = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+
+            return () => {
+                document.body.style.overflow = originalOverflow;
+            };
+        }
+    }, [isAdding]);
+
+    useEffect(() => {
+        if (selected) {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth", // ha instant kell, akkor "auto"
+            });
+        }
+    }, [selected]);
+
     const handleSelectRecipe = (recipe: Recipe) => {
         setSelected(recipe);
     };
@@ -103,20 +130,28 @@ export const RecipeApp = ({ recipes }: RecipeAppProps) => {
 
     // 5) Új recept hozzáadása
     const handleSaveRecipe = (data: Omit<Recipe, "id">) => {
+        // ha a form nem adott image-t (imagePreview), akkor választunk egyet
+        const hasImageFromForm = !!data.image;
+
+        const fallbackImage =
+            FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
+
         setAllRecipes((prev) => {
-            const maxId = prev.reduce(
-                (max, r) => (r.id > max ? r.id : max),
-                0
-            );
+            const maxId = prev.reduce((max, r) => (r.id > max ? r.id : max), 0);
+
             const newRecipe: Recipe = {
                 ...data,
                 id: maxId + 1,
+                image: hasImageFromForm ? data.image : fallbackImage,
             };
+
             return [...prev, newRecipe];
         });
 
         setIsAdding(false);
     };
+
+
 
     return (
         <div className="recipe-app-root">
