@@ -7,5 +7,5 @@ export interface Recipe {
   image?: string;
   ingredients: Ingredient[];
   instructions?: string[];
-  category?: string;   // ⬅️ ÚJ
+  category?: string;   
 }

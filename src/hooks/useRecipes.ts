@@ -9,7 +9,6 @@ const FALLBACK_IMAGES = [img1, img2, img3];
 
 const RECIPES_STORAGE_KEY = "receptkonyv_recipes";
 const SELECTED_ID_KEY = "selectedRecipeId";
-const CATEGORIES_STORAGE_KEY = "receptkonyv_categories";
 
 
 function getRandomFallbackImage(): string {
