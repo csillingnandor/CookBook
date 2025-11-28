@@ -38,3 +38,37 @@
   line-height: 1.4;
   color: #ddd;
 }
+
+.recipe-card__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+.recipe-card__icon-button {
+  border: none;
+  background: transparent;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.recipe-card__icon-button--edit:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffb347;
+  transform: translateY(-1px);
+}
+
+.recipe-card__icon-button--delete:hover {
+  background: rgba(255, 0, 0, 0.12);
+  color: #ff6b6b;
+  transform: translateY(-1px);
+}
+

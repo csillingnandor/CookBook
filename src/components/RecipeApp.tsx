@@ -1,5 +1,3 @@
-// src/components/RecipeApp.tsx
-
 import { useState, useEffect } from "preact/hooks";
 import { Recipe } from "../types/Recipe";
 import { Ingredient } from "../types/Ingredient";
@@ -8,48 +6,47 @@ import { RecipeDetails } from "./RecipeDetails";
 import { RecipeForm } from "./RecipeForm";
 import "./RecipeList.css";
 
+
 import img1 from "../assets/recipe_pictures/recipe_1.jpg";
 import img2 from "../assets/recipe_pictures/recipe_2.jpg";
 import img3 from "../assets/recipe_pictures/recipe_3.jpg";
 
 const FALLBACK_IMAGES = [img1, img2, img3];
 
-interface RecipeAppProps {
-    recipes: Recipe[];
+function getRandomFallbackImage(): string {
+    const idx = Math.floor(Math.random() * FALLBACK_IMAGES.length);
+    return FALLBACK_IMAGES[idx];
 }
+
 
 const RECIPES_STORAGE_KEY = "receptkonyv_recipes";
 const SELECTED_ID_KEY = "selectedRecipeId";
 
-export const RecipeApp = ({ recipes }: RecipeAppProps) => {
+export const RecipeApp = () => {
     const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
     const [selected, setSelected] = useState<Recipe | null>(null);
     const [shoppingItems, setShoppingItems] = useState<Ingredient[]>([]);
-    const [isAdding, setIsAdding] = useState(false);
+    const [isFormOpen, setIsFormOpen] = useState(false);
+    const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
 
-    // 1) Receptek betöltése localStorage-ből vagy propból
+    // receptek betöltése
     useEffect(() => {
         const stored = localStorage.getItem(RECIPES_STORAGE_KEY);
+
         if (stored) {
-            try {
-                const parsed = JSON.parse(stored) as Recipe[];
-                setAllRecipes(parsed);
-                return;
-            } catch (err) {
-                console.error("Hibás recipes JSON a localStorage-ben:", err);
-            }
+            setAllRecipes(JSON.parse(stored));
+        } else {
+            setAllRecipes([]); // üres lista induláskor
         }
+    }, []);
 
-        setAllRecipes(recipes);
-    }, [recipes]);
 
-    // 2) Receptek mentése, ha változnak
+    // receptek mentése
     useEffect(() => {
-        if (!allRecipes) return;
         localStorage.setItem(RECIPES_STORAGE_KEY, JSON.stringify(allRecipes));
     }, [allRecipes]);
 
-    // 3) Kiválasztott recept visszatöltése ID alapján
+    // kiválasztott recept visszatöltése
     useEffect(() => {
         const storedId = localStorage.getItem(SELECTED_ID_KEY);
         if (!storedId) return;
@@ -58,12 +55,10 @@ export const RecipeApp = ({ recipes }: RecipeAppProps) => {
         if (Number.isNaN(id)) return;
 
         const found = allRecipes.find((r) => r.id === id);
-        if (found) {
-            setSelected(found);
-        }
+        if (found) setSelected(found);
     }, [allRecipes]);
 
-    // 4) Kiválasztott recept ID mentése
+    // kiválasztott mentése
     useEffect(() => {
         if (selected) {
             localStorage.setItem(SELECTED_ID_KEY, String(selected.id));
@@ -72,26 +67,23 @@ export const RecipeApp = ({ recipes }: RecipeAppProps) => {
         }
     }, [selected]);
 
-    useEffect(() => {
-        // ha nyitva a form, tiltsuk a body scrollt
-        if (isAdding) {
-            const originalOverflow = document.body.style.overflow;
-            document.body.style.overflow = "hidden";
-
-            return () => {
-                document.body.style.overflow = originalOverflow;
-            };
-        }
-    }, [isAdding]);
-
+    // detailre váltáskor scroll a tetejére
     useEffect(() => {
         if (selected) {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth", // ha instant kell, akkor "auto"
-            });
+            window.scrollTo({ top: 0, behavior: "smooth" });
         }
     }, [selected]);
+
+    // body scroll tiltása formnál
+    useEffect(() => {
+        if (isFormOpen) {
+            const original = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+            return () => {
+                document.body.style.overflow = original;
+            };
+        }
+    }, [isFormOpen]);
 
     const handleSelectRecipe = (recipe: Recipe) => {
         setSelected(recipe);
@@ -125,40 +117,96 @@ export const RecipeApp = ({ recipes }: RecipeAppProps) => {
         });
     };
 
-    const openForm = () => setIsAdding(true);
-    const closeForm = () => setIsAdding(false);
+    // ÚJ: form nyitása / zárása
+    const openNewForm = () => {
+        setEditingRecipe(null);
+        setIsFormOpen(true);
+    };
 
-    // 5) Új recept hozzáadása
-    const handleSaveRecipe = (data: Omit<Recipe, "id">) => {
-        // ha a form nem adott image-t (imagePreview), akkor választunk egyet
-        const hasImageFromForm = !!data.image;
+    const openEditForm = (recipe: Recipe) => {
+        setEditingRecipe(recipe);
+        setIsFormOpen(true);
+    };
 
-        const fallbackImage =
-            FALLBACK_IMAGES[Math.floor(Math.random() * FALLBACK_IMAGES.length)];
+    const closeForm = () => {
+        setIsFormOpen(false);
+        setEditingRecipe(null);
+    };
 
-        setAllRecipes((prev) => {
-            const maxId = prev.reduce((max, r) => (r.id > max ? r.id : max), 0);
+    // ÚJ: mentés – create vagy update
+    const handleSaveRecipe = (
+        data: Omit<Recipe, "id">,
+        idToUpdate?: number | null
+    ) => {
+        if (idToUpdate != null) {
+            // UPDATE
+            setAllRecipes((prev) =>
+                prev.map((r) => {
+                    if (r.id !== idToUpdate) return r;
 
-            const newRecipe: Recipe = {
-                ...data,
-                id: maxId + 1,
-                image: hasImageFromForm ? data.image : fallbackImage,
-            };
+                    const finalImage =
+                        data.image ?? r.image ?? getRandomFallbackImage();
 
-            return [...prev, newRecipe];
-        });
+                    return {
+                        ...r,
+                        ...data,
+                        id: idToUpdate,
+                        image: finalImage,
+                    };
+                })
+            );
 
-        setIsAdding(false);
+            setSelected((prev) => {
+                if (!prev || prev.id !== idToUpdate) return prev;
+
+                const finalImage =
+                    data.image ?? prev.image ?? getRandomFallbackImage();
+
+                return {
+                    ...prev,
+                    ...data,
+                    id: idToUpdate,
+                    image: finalImage,
+                };
+            });
+        } else {
+            // CREATE
+            setAllRecipes((prev) => {
+                const maxId = prev.reduce(
+                    (max, r) => (r.id > max ? r.id : max),
+                    0
+                );
+
+                const finalImage = data.image ?? getRandomFallbackImage();
+
+                const newRecipe: Recipe = {
+                    ...data,
+                    id: maxId + 1,
+                    image: finalImage,
+                };
+
+                return [...prev, newRecipe];
+            });
+        }
+
+        setIsFormOpen(false);
+        setEditingRecipe(null);
     };
 
 
+    // ÚJ: törlés
+    const handleDeleteRecipe = (id: number) => {
+        setAllRecipes((prev) => prev.filter((r) => r.id !== id));
+        if (selected?.id === id) {
+            setSelected(null);
+        }
+    };
 
     return (
         <div className="recipe-app-root">
-            {/* EZ a rész blur-ölődik, ha isAdding === true */}
             <div
                 className={
-                    isAdding
+                    isFormOpen
                         ? "recipe-app-blur-wrapper is-blurred"
                         : "recipe-app-blur-wrapper"
                 }
@@ -178,6 +226,8 @@ export const RecipeApp = ({ recipes }: RecipeAppProps) => {
                             shoppingItems={shoppingItems}
                             onSelect={handleSelectRecipe}
                             onToggleIngredient={toggleIngredientInShoppingList}
+                            onEdit={openEditForm}
+                            onDelete={handleDeleteRecipe}
                         />
                     )}
 
@@ -186,32 +236,36 @@ export const RecipeApp = ({ recipes }: RecipeAppProps) => {
                             recipe={selected}
                             shoppingItems={shoppingItems}
                             onToggleIngredient={toggleIngredientInShoppingList}
+                            onEditRecipe={openEditForm}
+                            onDeleteRecipe={handleDeleteRecipe}
                         />
                     )}
                 </div>
             </div>
 
-            {/* + gomb már NEM a blur-wrapperben van, és modal közben el is tűnik */}
-            {!selected && !isAdding && (
+            {/* + gomb csak ha nincs detail és nincs form */}
+            {!selected && !isFormOpen && (
                 <button
                     type="button"
                     className="add-recipe-button"
-                    onClick={openForm}
+                    onClick={openNewForm}
                 >
                     +
                 </button>
             )}
 
-            {/* Modal */}
-            {isAdding && (
+            {isFormOpen && (
                 <div className="modal-overlay">
                     <div className="modal-backdrop" onClick={closeForm} />
                     <div className="modal-content">
-                        <RecipeForm onSave={handleSaveRecipe} onClose={closeForm} />
+                        <RecipeForm
+                            initialRecipe={editingRecipe}
+                            onSave={handleSaveRecipe}
+                            onClose={closeForm}
+                        />
                     </div>
                 </div>
             )}
         </div>
     );
-
 };

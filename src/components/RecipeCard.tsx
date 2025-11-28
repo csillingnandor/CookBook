@@ -9,6 +9,10 @@ interface RecipeCardProps {
   isSelected: boolean;
   shoppingItems: Ingredient[];
   onToggleIngredient: (ingredient: Ingredient) => void;
+
+  // ÚJ:
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 export const RecipeCard = ({
@@ -17,7 +21,19 @@ export const RecipeCard = ({
   isSelected,
   shoppingItems,
   onToggleIngredient,
+  onEdit,
+  onDelete,
 }: RecipeCardProps) => {
+  const handleEditClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    onEdit?.();
+  };
+
+  const handleDeleteClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    onDelete?.();
+  };
+
   return (
     <div className="recipe-card" onClick={onClick}>
       {recipe.image && (
@@ -33,6 +49,26 @@ export const RecipeCard = ({
         shoppingItems={shoppingItems}
         onToggleIngredient={onToggleIngredient}
       />
+
+      <div
+        className="recipe-card__actions"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          className="recipe-card__icon-button recipe-card__icon-button--edit"
+          onClick={handleEditClick as any}
+        >
+          ✎
+        </button>
+        <button
+          type="button"
+          className="recipe-card__icon-button recipe-card__icon-button--delete"
+          onClick={handleDeleteClick as any}
+        >
+          🗑
+        </button>
+      </div>
     </div>
   );
 };

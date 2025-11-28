@@ -1,5 +1,3 @@
-// src/components/RecipeDetails.tsx
-
 import { Recipe } from "../types/Recipe";
 import { Ingredient } from "../types/Ingredient";
 import { RecipeCard } from "./RecipeCard";
@@ -10,16 +8,20 @@ interface RecipeDetailsProps {
   recipe: Recipe | null;
   shoppingItems: Ingredient[];
   onToggleIngredient: (ingredient: Ingredient) => void;
+
+  // ÚJ:
+  onEditRecipe: (recipe: Recipe) => void;
+  onDeleteRecipe: (id: number) => void;
 }
 
 export const RecipeDetails = ({
   recipe,
   shoppingItems,
   onToggleIngredient,
+  onEditRecipe,
+  onDeleteRecipe,
 }: RecipeDetailsProps) => {
-  if (!recipe) {
-    return null;
-  }
+  if (!recipe) return null;
 
   return (
     <div className="detail-layout">
@@ -30,6 +32,8 @@ export const RecipeDetails = ({
           isSelected={true}
           shoppingItems={shoppingItems}
           onToggleIngredient={onToggleIngredient}
+          onEdit={() => onEditRecipe(recipe)}
+          onDelete={() => onDeleteRecipe(recipe.id)}
         />
       </div>
 
