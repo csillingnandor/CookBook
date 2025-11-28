@@ -10,14 +10,9 @@ import { CategoryList } from "./CategoryList";
 import { useCategories } from "../hooks/useCategories";
 
 import "./CategoryList.css";
-
-
-
 import "./RecipeList.css";
 import "./CategoryForm.css";
-
-
-const CATEGORIES_STORAGE_KEY = "receptkonyv_categories";
+import "./RecipeApp.css"
 
 
 export const RecipeApp = () => {
@@ -63,14 +58,10 @@ export const RecipeApp = () => {
     };
 
 
-
     const filteredRecipes =
         selectedCategory === ALL_CATEGORY_NAME
             ? allRecipes
             : allRecipes.filter((r) => r.category === selectedCategory);
-
-
-
 
 
     const toggleIngredientInShoppingList = (ingredient: Ingredient) => {
@@ -149,52 +140,54 @@ export const RecipeApp = () => {
                         : "recipe-app-blur-wrapper"
                 }
             >
-                <div className="recipe-list-container">
-                    <div className="recipe-main-layout">
-                        {/* BAL OSZLOP – kategóriák */}
-                        <CategoryList
-                            categories={categories}
-                            selectedCategory={selectedCategory}
-                            onSelectCategory={handleSelectCategory}
-                        />
+                {/* LISTA NÉZET */}
+                {!selected && (
+                    <div className="recipe-list-container">
+                        <div className="recipe-main-layout">
+                            {/* BAL OLDAL – kategóriák */}
+                            <CategoryList
+                                categories={categories}
+                                selectedCategory={selectedCategory}
+                                onSelectCategory={handleSelectCategory}
+                            />
 
-                        {/* JOBB OSZLOP – lista / detail */}
-                        <div className="recipe-main-content">
-                            {!selected && <h1>Receptlista</h1>}
+                            {/* JOBB OLDAL – recept kártyák */}
+                            <div className="recipe-main-content">
+                                <h1>Receptlista</h1>
 
-                            {selected && (
-                                <button className="back-button" onClick={clearSelected}>
-                                    ← Vissza
-                                </button>
-                            )}
-
-                            {!selected && (
                                 <RecipeList
-                                    recipes={filteredRecipes}  // ⬅️ SZŰRT LISTA
+                                    recipes={filteredRecipes}
                                     shoppingItems={shoppingItems}
                                     onSelect={selectRecipe}
                                     onToggleIngredient={toggleIngredientInShoppingList}
                                     onEdit={openEditForm}
                                     onDelete={deleteRecipe}
                                 />
-                            )}
-
-                            {selected && (
-                                <RecipeDetails
-                                    recipe={selected}
-                                    shoppingItems={shoppingItems}
-                                    onToggleIngredient={toggleIngredientInShoppingList}
-                                    onEditRecipe={openEditForm}
-                                    onDeleteRecipe={deleteRecipe}
-                                />
-                            )}
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
+                {/* DETAIL NÉZET – TELJESEN KÜLÖN LAYOUT */}
+                {selected && (
+                    <div className="recipe-detail-container">
+                        <button className="back-button" onClick={clearSelected}>
+                            ← Vissza
+                        </button>
+
+                        {/* A RecipeDetails-ben legyen a .detail-layout grid */}
+                        <RecipeDetails
+                            recipe={selected}
+                            shoppingItems={shoppingItems}
+                            onToggleIngredient={toggleIngredientInShoppingList}
+                            onEditRecipe={openEditForm}
+                            onDeleteRecipe={deleteRecipe}
+                        />
+                    </div>
+                )}
             </div>
 
-            {/* Lebegő + gomb */}
+            {/* Lebegő + gomb csak listanézetben, modal nélkül */}
             {!selected && modalMode === "none" && (
                 <AddRecipeButton onClick={openChooserModal} />
             )}
@@ -212,5 +205,6 @@ export const RecipeApp = () => {
             />
         </div>
     );
+
 
 };

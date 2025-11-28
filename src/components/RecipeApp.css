@@ -1,0 +1,153 @@
+/* --- App környezet a blur-hez és a modalhoz --- */
+
+.recipe-app-root {
+  position: relative;
+}
+
+.recipe-app-blur-wrapper {
+  transition: filter 0.2s ease;
+}
+
+.recipe-app-blur-wrapper.is-blurred {
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+/* LISTA nézet fő layoutja (kategóriák + kártyák) */
+
+.recipe-main-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.recipe-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* DETAIL nézet – saját container */
+
+.recipe-detail-container {
+  max-width: 1500px;
+  padding: 2rem 2rem 3rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Vissza gomb a detail nézethez */
+
+.back-button {
+  align-self: flex-end;
+  padding: 0.5rem 1.25rem;
+  background: #ffffff;
+  border: 2px solid #222;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-button:hover {
+  background: #222;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* DETAIL nézet – három oszlop 3:7:2 aránnyal
+   Ezt a RecipeDetails komponens gyökérdivjére tedd (className="detail-layout") */
+
+.detail-layout {
+  --gap: 1.5rem;
+
+  display: grid;
+  grid-template-columns: 3fr 7fr 2fr; /* 3 : 7 : 2 arány */
+  column-gap: var(--gap);
+
+  width: 100%;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.detail-col {
+  width: 100%;
+}
+
+/* Mobil / kisebb kijelzők */
+
+@media (max-width: 1100px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .recipe-main-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Új recept + gomb */
+
+.add-recipe-button {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #ffb347;
+  color: #fff;
+}
+
+.add-recipe-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* Modal az űrlaphoz */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+  overflow-y: auto;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 101;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 600px;
+  width: min(600px, 90%);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+  margin-bottom: 3rem;
+}
