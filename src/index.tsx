@@ -1,16 +1,12 @@
 import { render } from 'preact';
-import { RecipeList } from "./components/RecipeList";
 import { recipes } from "./data/Recipes";
+import { RecipeApp } from "./components/RecipeApp";
 
 import './style.css';
 
 
 export function App() {
-	return (
-		<div>
-		  <RecipeList recipes={recipes} />
-		</div>
-	  );
+	return <RecipeApp recipes={recipes} />;
 }
 
 

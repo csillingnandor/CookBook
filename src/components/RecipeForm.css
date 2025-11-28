@@ -1,0 +1,149 @@
+/* --- Form alap stílusok --- */
+
+.new-recipe-form {
+  color: #333;
+}
+
+.new-recipe-form h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.new-recipe-form .form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.new-recipe-form label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.new-recipe-form input,
+.new-recipe-form textarea {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font: inherit;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #222;
+}
+
+.new-recipe-form input::placeholder,
+.new-recipe-form textarea::placeholder {
+  color: #aaa;
+}
+
+.new-recipe-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.new-recipe-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.new-recipe-form-actions button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.new-recipe-form-actions button[type="button"] {
+  background: #eee;
+}
+
+.new-recipe-form-actions button[type="submit"] {
+  background: #ffb347;
+  color: #fff;
+}
+
+/* --- Ingredient input sor + lista --- */
+
+.ingredient-input-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.ingredient-input-row input {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font: inherit;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #222;
+}
+
+.ingredient-add-button {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffb347;
+  color: #fff;
+}
+
+.ingredient-add-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* Hozzávaló lista */
+
+.ingredient-list-preview {
+  margin-top: 0.5rem;
+  padding-left: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.ingredient-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  margin-bottom: 0.25rem;
+  border-radius: 6px;
+  border: 1px solid #e1e1e1;
+  background: #f7f7f7;
+}
+
+.ingredient-list-item span {
+  color: #333;
+}
+
+.ingredient-remove-button {
+  border: none;
+  background: #ffdddd;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  padding: 0.1rem 0.3rem;
+  border-radius: 999px;
+  color: #c0392b;
+}
+
+.ingredient-remove-button:hover {
+  background: #ffcccc;
+}
