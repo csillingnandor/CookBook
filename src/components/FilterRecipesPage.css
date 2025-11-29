@@ -1,0 +1,154 @@
+.filter-recipes-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.filter-recipes-window {
+  background: #1f1f1f;
+  color: #f5f5f5;
+  border-radius: 18px;
+  padding: 1.5rem 1.75rem 1.25rem;
+  width: 420px;
+  max-width: 90%;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+}
+
+.filter-recipes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.filter-recipes-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.filter-close-button {
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f5f5;
+  border-radius: 999px;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.filter-recipes-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  color: #cccccc;
+}
+
+.filter-field input,
+.filter-field select {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: #f5f5f5;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+/* Nehézség + Idő + Ár egy sorban */
+.filter-row-inline {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.filter-row-inline .filter-field {
+  flex: 1;
+}
+
+/* Autocomplete chip-ek */
+.ingredient-suggestions {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.ingredient-chip {
+  border: none;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f5f5;
+  cursor: pointer;
+}
+
+.ingredient-chip:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.ingredient-mode-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.ingredient-mode-row label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.filter-recipes-footer {
+  display: flex;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.filter-footer-spacer {
+  flex: 1;
+}
+
+.filter-primary-button,
+.filter-secondary-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-secondary-button {
+  background: transparent;
+  color: #ccc;
+}
+
+.filter-secondary-button:hover {
+  text-decoration: underline;
+}
+
+.filter-primary-button {
+  background: #ffb347;
+  color: #1f1f1f;
+}
+
+.filter-primary-button:hover {
+  filter: brightness(1.05);
+}

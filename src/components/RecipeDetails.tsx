@@ -4,6 +4,8 @@ import { RecipeCard } from "./RecipeCard";
 import { InstructionList } from "./InstructionList";
 import { ShoppingList } from "./ShoppingList";
 
+import "./RecipeDetails.css"
+
 interface RecipeDetailsProps {
   recipe: Recipe | null;
   shoppingItems: Ingredient[];
@@ -28,7 +30,8 @@ export const RecipeDetails = ({
       <div className="detail-col detail-col--card">
         <RecipeCard
           recipe={recipe}
-          onClick={() => {}}
+          className="recipe-card--detail"
+          onClick={() => { }}
           isSelected={true}
           shoppingItems={shoppingItems}
           onToggleIngredient={onToggleIngredient}

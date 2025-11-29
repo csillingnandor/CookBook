@@ -4,8 +4,12 @@ import { Recipe } from "../types/Recipe";
 import img1 from "../assets/recipe_pictures/recipe_1.jpg";
 import img2 from "../assets/recipe_pictures/recipe_2.jpg";
 import img3 from "../assets/recipe_pictures/recipe_3.jpg";
+import img4 from "../assets/recipe_pictures/recipe_4.jpg";
+import img5 from "../assets/recipe_pictures/recipe_5.jpg";
+import img6 from "../assets/recipe_pictures/recipe_6.jpg";
+import img7 from "../assets/recipe_pictures/recipe_7.jpg";
 
-const FALLBACK_IMAGES = [img1, img2, img3];
+const FALLBACK_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 
 const RECIPES_STORAGE_KEY = "receptkonyv_recipes";
 const SELECTED_ID_KEY = "selectedRecipeId";

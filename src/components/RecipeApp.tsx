@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useState, useEffect, useMemo } from "preact/hooks";
 import { Ingredient } from "../types/Ingredient";
 import { RecipeList } from "./RecipeList";
 import { RecipeDetails } from "./RecipeDetails";
@@ -9,10 +9,15 @@ import { ModalOverlay, ModalMode } from "./ModalOverlay";
 import { CategoryList } from "./CategoryList";
 import { useCategories } from "../hooks/useCategories";
 
+
+// 🔽 ÚJ IMPORTOK
+import { FilterRecipesButton } from "./FilterRecipesButton";
+import { FilterRecipesPage, RecipeFilterValues } from "./FilterRecipesPage";
+
 import "./CategoryList.css";
 import "./RecipeList.css";
 import "./CategoryForm.css";
-import "./RecipeApp.css"
+import "./RecipeApp.css";
 
 
 export const RecipeApp = () => {
@@ -33,35 +38,139 @@ export const RecipeApp = () => {
         ALL_CATEGORY_NAME,
     } = useCategories();
 
+    const [filters, setFilters] = useState<RecipeFilterValues>({
+        category: "",
+        ingredientQuery: "",
+        difficulty: "",
+        timeRange: "",
+        priceLevel: "",
+    });
+
+
+
 
     const [shoppingItems, setShoppingItems] = useState<Ingredient[]>([]);
     const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
     const [modalMode, setModalMode] = useState<ModalMode>("none");
 
+    // 🔽 ÚJ: szűrő overlay nyitva van-e
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 
-
-    // body scroll tiltása formnál
+    // body scroll tiltása formnál / szűrőnél
     useEffect(() => {
-        if (modalMode !== "none") {
+        if (modalMode !== "none" || isFilterOpen) {
             const original = document.body.style.overflow;
             document.body.style.overflow = "hidden";
             return () => {
                 document.body.style.overflow = original;
             };
         }
-    }, [modalMode]);
+    }, [modalMode, isFilterOpen]);
 
     const handleSelectCategory = (name: string) => {
         selectCategory(name);
         clearSelected(); // detail nézetből vissza listára
     };
 
+    const ingredientSuggestions = useMemo(() => {
+        const names = new Set<string>();
 
-    const filteredRecipes =
-        selectedCategory === ALL_CATEGORY_NAME
-            ? allRecipes
-            : allRecipes.filter((r) => r.category === selectedCategory);
+        allRecipes.forEach((r) => {
+            r.ingredients.forEach((ing) => {
+                const trimmed = ing.name.trim();
+                if (trimmed) names.add(trimmed);
+            });
+        });
+
+        return Array.from(names).sort((a, b) => a.localeCompare(b, "hu"));
+    }, [allRecipes]);
+
+
+
+
+    // --- SZŰRÉS FUNKCIÓ ---
+    const filteredRecipes = useMemo(() => {
+        // több alapanyag, vesszővel elválasztva
+        const ingredientTerms = filters.ingredientQuery
+            .split(",")
+            .map((t) => t.trim().toLowerCase())
+            .filter(Boolean);
+
+        return allRecipes
+            // 🔸 KATEGÓRIA
+            .filter((r) => {
+                const activeCategory = filters.category || selectedCategory;
+
+                if (
+                    !activeCategory ||
+                    activeCategory === ALL_CATEGORY_NAME ||
+                    activeCategory === "Összes"
+                ) {
+                    return true;
+                }
+
+                return r.category === activeCategory;
+            })
+
+            // 🔸 ALAPANYAGOK – AND mód: minden keresett kifejezésre legyen találat
+            .filter((r) => {
+                if (!ingredientTerms.length) return true;
+
+                const names = r.ingredients.map((ing) =>
+                    ing.name.toLowerCase()
+                );
+
+                return ingredientTerms.every((term) =>
+                    names.some((name) => name.includes(term))
+                );
+            })
+
+            // 🔸 NEHÉZSÉG
+            .filter((r) => {
+                if (!filters.difficulty) return true;
+                return r.difficulty === filters.difficulty;
+            })
+
+            // 🔸 ÁR
+            .filter((r) => {
+                if (!filters.priceLevel) return true;
+                return r.priceLevel === filters.priceLevel;
+            })
+
+            // 🔸 IDŐ
+            .filter((r) => {
+                if (!filters.timeRange) return true;
+                if (typeof r.time !== "number") return false;
+
+                const t = r.time;
+                switch (filters.timeRange) {
+                    case "0-10":
+                        return t <= 10;
+                    case "10-30":
+                        return t > 10 && t <= 30;
+                    case "30-60":
+                        return t > 30 && t <= 60;
+                    case "60+":
+                        return t > 60;
+                    default:
+                        return true;
+                }
+            });
+    }, [
+        allRecipes,
+        selectedCategory,
+        ALL_CATEGORY_NAME,
+        filters.category,
+        filters.ingredientQuery,
+        filters.difficulty,
+        filters.timeRange,
+        filters.priceLevel,
+    ]);
+
+
+
+
 
 
     const toggleIngredientInShoppingList = (ingredient: Ingredient) => {
@@ -187,9 +296,13 @@ export const RecipeApp = () => {
                 )}
             </div>
 
-            {/* Lebegő + gomb csak listanézetben, modal nélkül */}
+            {/* Lebegő gombok csak listanézetben, modal nélkül */}
             {!selected && modalMode === "none" && (
-                <AddRecipeButton onClick={openChooserModal} />
+                <div className="floating-actions">
+                    {/* 🔼 SZŰRŐ GOMB – a hozzáadás gomb felett */}
+                    <FilterRecipesButton onClick={() => setIsFilterOpen(true)} />
+                    <AddRecipeButton onClick={openChooserModal} />
+                </div>
             )}
 
             {/* Modal overlay */}
@@ -203,8 +316,32 @@ export const RecipeApp = () => {
                 onSaveRecipe={handleSaveRecipe}
                 onSaveCategory={handleSaveCategory}
             />
+
+            {/* 🔽 Szűrő “oldal” / overlay */}
+            {isFilterOpen && (
+                <FilterRecipesPage
+                    categories={categories}
+                    selectedCategory={selectedCategory}
+                    filters={filters}
+                    ingredientSuggestions={ingredientSuggestions}
+                    ALL_CATEGORY_NAME={ALL_CATEGORY_NAME}
+                    onChangeCategory={handleSelectCategory}
+                    onApplyFilters={setFilters}
+                    onClearFilters={() =>
+                        setFilters({
+                            category: "",
+                            ingredientQuery: "",
+                            difficulty: "",
+                            timeRange: "",
+                            priceLevel: "",
+                        })
+                    }
+                    onClose={() => setIsFilterOpen(false)}
+                />
+            )}
+
+
+
         </div>
     );
-
-
 };

@@ -13,7 +13,11 @@ interface RecipeCardProps {
   // ÚJ:
   onEdit?: () => void;
   onDelete?: () => void;
+
+  // 🔽 EZT ADD HOZZÁ
+  className?: string;
 }
+
 
 export const RecipeCard = ({
   recipe,
@@ -23,6 +27,7 @@ export const RecipeCard = ({
   onToggleIngredient,
   onEdit,
   onDelete,
+  className,
 }: RecipeCardProps) => {
   const handleEditClick = (e: MouseEvent) => {
     e.stopPropagation();
@@ -35,13 +40,30 @@ export const RecipeCard = ({
   };
 
   return (
-    <div className="recipe-card" onClick={onClick}>
+    <div
+      className={`recipe-card ${className ?? ""}`}   // 🔽 ITT HASZNÁLJUK
+      onClick={onClick}>
       {recipe.image && (
         <img src={recipe.image} alt={recipe.title} className="recipe-image" />
       )}
 
       <h3>{recipe.title}</h3>
       <p>{recipe.description}</p>
+
+      {/* 🔽 ÚJ META INFÓK BLOKK */}
+      {(recipe.time || recipe.difficulty || recipe.priceLevel) && (
+        <div className="recipe-meta">
+          {recipe.time && (
+            <span className="recipe-meta-item">⏱ {recipe.time} perc</span>
+          )}
+          {recipe.difficulty && (
+            <span className="recipe-meta-item">📌 {recipe.difficulty}</span>
+          )}
+          {recipe.priceLevel && (
+            <span className="recipe-meta-item">💰 {recipe.priceLevel}</span>
+          )}
+        </div>
+      )}
 
       <IngredientsBox
         ingredients={recipe.ingredients}

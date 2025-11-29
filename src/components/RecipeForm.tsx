@@ -1,30 +1,31 @@
-
-
 import { useState, useEffect } from "preact/hooks";
 import { Recipe } from "../types/Recipe";
 import { Ingredient } from "../types/Ingredient";
 import "./RecipeForm.css";
 
+// ha bevezetted, ezeket érdemes importálni a típusokhoz:
+// import type { Difficulty, PriceLevel } from "../types/Recipe";
+
 interface RecipeFormProps {
     onSave: (data: Omit<Recipe, "id">, idToUpdate?: number | null) => void;
     onClose: () => void;
     initialRecipe?: Recipe | null;
-    categories: string[];            // ⬅️ ÚJ
+    categories: string[];
 }
 
+type TimeRangeKey = "0-10" | "10-30" | "30-60" | "60+";
 
 export const RecipeForm = ({
     onSave,
     onClose,
     initialRecipe,
-    categories
+    categories,
 }: RecipeFormProps) => {
     const isEditMode = !!initialRecipe;
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState<string>("");
-
 
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [ingredientName, setIngredientName] = useState("");
@@ -35,6 +36,11 @@ export const RecipeForm = ({
     const [instructionText, setInstructionText] = useState("");
 
     const [imagePreview, setImagePreview] = useState<string | undefined>();
+
+    // 🔽 ÚJ: időintervallum, nehézség, ár
+    const [timeRange, setTimeRange] = useState<TimeRangeKey | "">("");
+    const [difficulty, setDifficulty] = useState<string>("");   // pl. "könnyű" | "közepes" | "nehéz"
+    const [priceLevel, setPriceLevel] = useState<string>("");   // pl. "olcsó" | "megfizethető" | "drága"
 
     // EDIT mód: amikor kapunk initialRecipe-et, töltsük ki a mezőket
     useEffect(() => {
@@ -49,6 +55,12 @@ export const RecipeForm = ({
             setIngredientAmount("");
             setIngredientUnit("");
             setInstructionText("");
+
+            // új mezők reset
+            setTimeRange("");
+            setDifficulty("");
+            setPriceLevel("");
+
             return;
         }
 
@@ -62,6 +74,23 @@ export const RecipeForm = ({
         setIngredientAmount("");
         setIngredientUnit("");
         setInstructionText("");
+
+        // 🔽 initialRecipe.time → timeRange bucket
+        if (typeof initialRecipe.time === "number") {
+            const t = initialRecipe.time;
+            let r: TimeRangeKey;
+            if (t <= 10) r = "0-10";
+            else if (t <= 30) r = "10-30";
+            else if (t <= 60) r = "30-60";
+            else r = "60+";
+            setTimeRange(r);
+        } else {
+            setTimeRange("");
+        }
+
+        // 🔽 initialRecipe.difficulty / priceLevel
+        setDifficulty((initialRecipe as any).difficulty ?? "");
+        setPriceLevel((initialRecipe as any).priceLevel ?? "");
     }, [initialRecipe]);
 
     const resetIngredientFields = () => {
@@ -122,7 +151,6 @@ export const RecipeForm = ({
         reader.readAsDataURL(file);
     };
 
-
     const handleSubmit = (e: Event) => {
         e.preventDefault();
 
@@ -131,15 +159,38 @@ export const RecipeForm = ({
             return;
         }
 
+        // 🔽 timeRange → konkrét perc érték (a range középtájára/határára lőve)
+        let time: number | undefined;
+        switch (timeRange) {
+            case "0-10":
+                time = 10;
+                break;
+            case "10-30":
+                time = 30;
+                break;
+            case "30-60":
+                time = 60;
+                break;
+            case "60+":
+                time = 90;
+                break;
+            default:
+                time = undefined;
+        }
+
         const recipeData: Omit<Recipe, "id"> = {
             title: title.trim(),
-            description: description.trim(),
+            description: description.trim().slice(0, 300),
             ingredients,
             instructions,
-            image: imagePreview ?? initialRecipe?.image, // string vagy undefined
+            image: imagePreview ?? initialRecipe?.image,
             category: category || undefined,
-        };
 
+            // 🔽 ÚJ mezők
+            time,
+            difficulty: (difficulty || undefined) as any,
+            priceLevel: (priceLevel || undefined) as any,
+        };
 
         onSave(recipeData, initialRecipe?.id ?? null);
     };
@@ -167,11 +218,13 @@ export const RecipeForm = ({
                     Rövid leírás
                     <textarea
                         value={description}
+                        maxLength={300}   // 🔽 max 300 karakter
                         onInput={(e) =>
                             setDescription((e.target as HTMLTextAreaElement).value)
                         }
-                        placeholder="Röviden a receptről…"
+                        placeholder="Röviden a receptről… (max. 300 karakter)"
                     />
+
                 </label>
             </div>
 
@@ -194,6 +247,55 @@ export const RecipeForm = ({
                 </label>
             </div>
 
+            {/* 🔽 ÚJ BLOKK: idő, nehézség, ár */}
+            <div className="form-row form-row--inline-3">
+                <label className="form-field">
+                    Elkészítési idő
+                    <select
+                        value={timeRange}
+                        onChange={(e) =>
+                            setTimeRange((e.target as HTMLSelectElement).value as TimeRangeKey | "")
+                        }
+                    >
+                        <option value="">Nincs megadva</option>
+                        <option value="0-10">0–10 perc</option>
+                        <option value="10-30">10–30 perc</option>
+                        <option value="30-60">30–60 perc</option>
+                        <option value="60+">60+ perc</option>
+                    </select>
+                </label>
+
+                <label className="form-field">
+                    Nehézség
+                    <select
+                        value={difficulty}
+                        onChange={(e) =>
+                            setDifficulty((e.target as HTMLSelectElement).value)
+                        }
+                    >
+                        <option value="">Nincs megadva</option>
+                        <option value="könnyű">Könnyű</option>
+                        <option value="közepes">Közepes</option>
+                        <option value="nehéz">Nehéz</option>
+                    </select>
+                </label>
+
+                <label className="form-field">
+                    Ár
+                    <select
+                        value={priceLevel}
+                        onChange={(e) =>
+                            setPriceLevel((e.target as HTMLSelectElement).value)
+                        }
+                    >
+                        <option value="">Nincs megadva</option>
+                        <option value="olcsó">Olcsó</option>
+                        <option value="megfizethető">Megfizethető</option>
+                        <option value="drága">Drága</option>
+                    </select>
+                </label>
+            </div>
+
 
             <div className="form-row">
                 <label>Kép (opcionális)</label>
@@ -210,7 +312,6 @@ export const RecipeForm = ({
                     />
                 )}
             </div>
-
 
             {/* HOZZÁVALÓK */}
             <div className="form-row">
@@ -324,4 +425,3 @@ export const RecipeForm = ({
         </form>
     );
 };
-

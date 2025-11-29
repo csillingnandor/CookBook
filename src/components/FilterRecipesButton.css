@@ -1,0 +1,24 @@
+.filter-recipe-button {
+  position: fixed;
+  right: 2rem;
+  bottom: calc(2rem + 3.25rem + 0.75rem);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  background: #444;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.filter-recipe-button:hover {
+  background: #666;
+  transform: translateY(-2px);
+}
