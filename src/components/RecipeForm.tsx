@@ -3,6 +3,9 @@ import { Recipe } from "../types/Recipe";
 import { Ingredient } from "../types/Ingredient";
 import "./RecipeForm.css";
 import { TimeRangeKey } from "../types/recipeMeta";
+import { IngredientEditor } from "./IngredientEditor";
+import { InstructionEditor } from "./InstructionEditor";
+import { BasicDropDownField } from "./BasicDropDownField";
 
 // ha bevezetted, ezeket érdemes importálni a típusokhoz:
 // import type { Difficulty, PriceLevel } from "../types/Recipe";
@@ -248,53 +251,46 @@ export const RecipeForm = ({
             </div>
 
             {/* 🔽 ÚJ BLOKK: idő, nehézség, ár */}
+
             <div className="form-row form-row--inline-3">
-                <label className="form-field">
-                    Elkészítési idő
-                    <select
-                        value={timeRange}
-                        onChange={(e) =>
-                            setTimeRange((e.target as HTMLSelectElement).value as TimeRangeKey | "")
-                        }
-                    >
-                        <option value="">Nincs megadva</option>
-                        <option value="0-10">0–10 perc</option>
-                        <option value="10-30">10–30 perc</option>
-                        <option value="30-60">30–60 perc</option>
-                        <option value="60+">60+ perc</option>
-                    </select>
-                </label>
+                <BasicDropDownField
+                    label="Elkészítési idő"
+                    value={timeRange}
+                    onChange={(val) => setTimeRange(val as TimeRangeKey | "")}
+                    options={[
+                        { value: "", label: "Nincs megadva" },
+                        { value: "0-10", label: "0–10 perc" },
+                        { value: "10-30", label: "10–30 perc" },
+                        { value: "30-60", label: "30–60 perc" },
+                        { value: "60+", label: "60+ perc" },
+                    ]}
+                />
 
-                <label className="form-field">
-                    Nehézség
-                    <select
-                        value={difficulty}
-                        onChange={(e) =>
-                            setDifficulty((e.target as HTMLSelectElement).value)
-                        }
-                    >
-                        <option value="">Nincs megadva</option>
-                        <option value="könnyű">Könnyű</option>
-                        <option value="közepes">Közepes</option>
-                        <option value="nehéz">Nehéz</option>
-                    </select>
-                </label>
+                <BasicDropDownField
+                    label="Nehézség"
+                    value={difficulty}
+                    onChange={setDifficulty}
+                    options={[
+                        { value: "", label: "Nincs megadva" },
+                        { value: "könnyű", label: "Könnyű" },
+                        { value: "közepes", label: "Közepes" },
+                        { value: "nehéz", label: "Nehéz" },
+                    ]}
+                />
 
-                <label className="form-field">
-                    Ár
-                    <select
-                        value={priceLevel}
-                        onChange={(e) =>
-                            setPriceLevel((e.target as HTMLSelectElement).value)
-                        }
-                    >
-                        <option value="">Nincs megadva</option>
-                        <option value="olcsó">Olcsó</option>
-                        <option value="megfizethető">Megfizethető</option>
-                        <option value="drága">Drága</option>
-                    </select>
-                </label>
+                <BasicDropDownField
+                    label="Ár"
+                    value={priceLevel}
+                    onChange={setPriceLevel}
+                    options={[
+                        { value: "", label: "Nincs megadva" },
+                        { value: "olcsó", label: "Olcsó" },
+                        { value: "megfizethető", label: "Megfizethető" },
+                        { value: "drága", label: "Drága" },
+                    ]}
+                />
             </div>
+
 
 
             <div className="form-row">
@@ -314,105 +310,27 @@ export const RecipeForm = ({
             </div>
 
             {/* HOZZÁVALÓK */}
-            <div className="form-row">
-                <label>Hozzávalók</label>
+            <IngredientEditor
+                ingredients={ingredients}
+                nameValue={ingredientName}
+                amountValue={ingredientAmount}
+                unitValue={ingredientUnit}
+                onChangeName={setIngredientName}
+                onChangeAmount={setIngredientAmount}
+                onChangeUnit={setIngredientUnit}
+                onAdd={handleAddIngredient}
+                onRemove={handleRemoveIngredient}
+            />
 
-                <div className="ingredient-input-row">
-                    <input
-                        type="text"
-                        placeholder="Név (pl. Liszt)"
-                        value={ingredientName}
-                        onInput={(e) =>
-                            setIngredientName((e.target as HTMLInputElement).value)
-                        }
-                    />
-                    <input
-                        type="number"
-                        placeholder="Mennyiség (pl. 200)"
-                        value={ingredientAmount}
-                        onInput={(e) =>
-                            setIngredientAmount((e.target as HTMLInputElement).value)
-                        }
-                    />
-                    <input
-                        type="text"
-                        placeholder="Mértékegység (pl. g)"
-                        value={ingredientUnit}
-                        onInput={(e) =>
-                            setIngredientUnit((e.target as HTMLInputElement).value)
-                        }
-                    />
-
-                    <button
-                        type="button"
-                        className="ingredient-add-button"
-                        onClick={handleAddIngredient}
-                    >
-                        +
-                    </button>
-                </div>
-
-                {ingredients.length > 0 && (
-                    <ul className="ingredient-list-preview">
-                        {ingredients.map((ing, idx) => (
-                            <li key={idx} className="ingredient-list-item">
-                                <span>
-                                    {ing.name} — {ing.amount} {ing.unit}
-                                </span>
-                                <button
-                                    type="button"
-                                    className="ingredient-remove-button"
-                                    onClick={() => handleRemoveIngredient(idx)}
-                                >
-                                    ✕
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
 
             {/* INSTRUKCIÓK LÉPÉSRŐL LÉPÉSRE */}
-            <div className="form-row">
-                <label>Elkészítés lépésenként</label>
-
-                <div className="instruction-input-row">
-                    <input
-                        type="text"
-                        placeholder="Írd ide a lépéseket..."
-                        value={instructionText}
-                        onInput={(e) =>
-                            setInstructionText((e.target as HTMLInputElement).value)
-                        }
-                    />
-                    <button
-                        type="button"
-                        className="instruction-add-button"
-                        onClick={handleAddInstruction}
-                    >
-                        +
-                    </button>
-                </div>
-
-                {instructions.length > 0 && (
-                    <ol className="instruction-list-preview">
-                        {instructions.map((step, idx) => (
-                            <li key={idx} className="instruction-list-item">
-                                <span className="instruction-list-text">
-                                    <strong>{idx + 1}.</strong> {step}
-                                </span>
-                                <button
-                                    type="button"
-                                    className="instruction-remove-button"
-                                    onClick={() => handleRemoveInstruction(idx)}
-                                >
-                                    ✕
-                                </button>
-                            </li>
-                        ))}
-                    </ol>
-                )}
-            </div>
+            <InstructionEditor
+                instructions={instructions}
+                textValue={instructionText}
+                onChangeText={setInstructionText}
+                onAdd={handleAddInstruction}
+                onRemove={handleRemoveInstruction}
+            />
 
             <div className="new-recipe-form-actions">
                 <button type="button" onClick={onClose}>

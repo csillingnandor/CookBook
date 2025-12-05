@@ -73,11 +73,17 @@ export function useCategories() {
     localStorage.setItem(SELECTED_CATEGORY_KEY, name);
   };
 
+  const deleteCategory = (name: string) => {
+    setCategories((prev) => prev.filter((c) => c !== name));
+  };
+
+
   return {
     categories,        // csak a tényleges kategóriák (Összes nélkül)
     selectedCategory,  // aktuálisan kiválasztott (lehet "Összes" is)
     addCategory,
     selectCategory,
+    deleteCategory,
     ALL_CATEGORY_NAME,
   };
 }

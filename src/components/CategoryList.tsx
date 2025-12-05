@@ -5,12 +5,14 @@ interface CategoryListProps {
   categories: string[];
   selectedCategory: string;
   onSelectCategory: (name: string) => void;
+  onDeleteCategory?: (name: string) => void;   // ⬅ ÚJ (opcionális)
 }
 
 export const CategoryList = ({
   categories,
   selectedCategory,
   onSelectCategory,
+  onDeleteCategory,
 }: CategoryListProps) => {
   // Összes + az összes egyedi kategória
   const allCategories = ["Összes", ...categories.filter((c) => c !== "Összes")];
@@ -23,6 +25,12 @@ export const CategoryList = ({
           name={cat}
           isSelected={selectedCategory === cat}
           onClick={() => onSelectCategory(cat)}
+          canDelete={cat !== "Összes"}
+          onDelete={
+            cat !== "Összes" && onDeleteCategory
+              ? () => onDeleteCategory(cat)
+              : undefined
+          }
         />
       ))}
     </aside>

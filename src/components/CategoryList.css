@@ -61,3 +61,43 @@
     flex: 0 0 auto;
   }
 }
+
+
+/* A kártya tartalma egy sor, balra a név, jobbra a törlés ikon */
+
+.category-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* A név ellipszissel vágódjon le, ha nem fér ki */
+
+.category-card__label {
+  flex: 1;
+  min-width: 0; /* fontos, hogy az ellipsis működjön flex-ben */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Törlés "ikon" */
+
+.category-card__delete {
+  flex: 0 0 auto;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.category-card--selected .category-card__delete {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.category-card__delete:hover {
+  background: rgba(0, 0, 0, 0.35);
+}

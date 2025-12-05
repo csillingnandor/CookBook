@@ -1,46 +1,55 @@
 import { useState, useEffect, useMemo } from "preact/hooks";
+import { Recipe } from "../types/Recipe";
 import { Ingredient } from "../types/Ingredient";
+
 import { RecipeList } from "./RecipeList";
 import { RecipeDetails } from "./RecipeDetails";
-import { useRecipes } from "../hooks/useRecipes";
-import { Recipe } from "../types/Recipe";
 import { AddRecipeButton } from "./AddRecipeButton";
 import { ModalOverlay, ModalMode } from "./ModalOverlay";
 import { CategoryList } from "./CategoryList";
-import { useCategories } from "../hooks/useCategories";
-import { filterRecipes } from "../utils/recipeFilter";
-import { useIngredientSuggestions } from "../hooks/useIngredientSuggestions";
-
-
-// 🔽 ÚJ IMPORTOK
 import { FilterRecipesButton } from "./FilterRecipesButton";
 import { FilterRecipesPage, RecipeFilterValues } from "./FilterRecipesPage";
+
+import { useRecipes } from "../hooks/useRecipes";
+import { useSelectedRecipe } from "../hooks/useSelectedRecipe";
+import { useCategories } from "../hooks/useCategories";
+import { useShoppingList } from "../hooks/useShoppingList";
+import { useIngredientSuggestions } from "../hooks/useIngredientSuggestions";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
+
+import { filterRecipes } from "../utils/recipeFilter";
 
 import "./CategoryList.css";
 import "./RecipeList.css";
 import "./CategoryForm.css";
 import "./RecipeApp.css";
-import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
-
 
 export const RecipeApp = () => {
-    const {
-        allRecipes,
-        selected,
-        selectRecipe,
-        clearSelected,
-        saveRecipe,
-        deleteRecipe,
-    } = useRecipes();
+    // Receptek (CRUD + localStorage)
+    const { allRecipes, saveRecipe, deleteRecipe, clearCategoryFromRecipes } = useRecipes();
 
+    // Kiválasztott recept (localStorage)
+    const { selected, select, clear } = useSelectedRecipe(allRecipes);
+
+    // Detail nézetre váltáskor görgessünk fel
+    useEffect(() => {
+        if (selected) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    }, [selected]);
+
+    // Kategóriák
     const {
         categories,
         selectedCategory,
         addCategory,
         selectCategory,
+        deleteCategory,   // ⬅ EZ HIÁNYZOTT
         ALL_CATEGORY_NAME,
     } = useCategories();
 
+
+    // Szűrő értékek
     const [filters, setFilters] = useState<RecipeFilterValues>({
         category: "",
         ingredientQuery: "",
@@ -49,30 +58,29 @@ export const RecipeApp = () => {
         priceLevel: "",
     });
 
+    // Bevásárlólista
+    const { shoppingItems, toggleIngredientInShoppingList } = useShoppingList();
 
-
-
-    const [shoppingItems, setShoppingItems] = useState<Ingredient[]>([]);
+    // Modal állapot
     const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
     const [modalMode, setModalMode] = useState<ModalMode>("none");
 
-    // 🔽 ÚJ: szűrő overlay nyitva van-e
+    // Szűrő overlay állapota
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+    // Scroll lock, ha modal vagy filter nyitva
     useBodyScrollLock(modalMode !== "none" || isFilterOpen);
 
-
+    // Kategória választás – detail nézetből visszalépünk listára
     const handleSelectCategory = (name: string) => {
         selectCategory(name);
-        clearSelected(); // detail nézetből vissza listára
+        clear();
     };
 
+    // Alapanyag javaslatok a szűrőhöz
     const ingredientSuggestions = useIngredientSuggestions(allRecipes);
 
-
-
-
-
+    // Szűrt receptek
     const filteredRecipes = useMemo(
         () =>
             filterRecipes(
@@ -84,45 +92,26 @@ export const RecipeApp = () => {
         [allRecipes, filters, selectedCategory, ALL_CATEGORY_NAME]
     );
 
-    
-    const toggleIngredientInShoppingList = (ingredient: Ingredient) => {
-        setShoppingItems((prev) => {
-            const exists = prev.some(
-                (ing) =>
-                    ing.name === ingredient.name &&
-                    ing.unit === ingredient.unit &&
-                    ing.amount === ingredient.amount
-            );
-            return exists
-                ? prev.filter(
-                    (ing) =>
-                        !(
-                            ing.name === ingredient.name &&
-                            ing.unit === ingredient.unit &&
-                            ing.amount === ingredient.amount
-                        )
-                )
-                : [...prev, ingredient];
-        });
-    };
-
+    // --- Modal vezérlés ---
 
     const openEditForm = (recipe: Recipe) => {
-        setEditingRecipe(recipe);   // melyik receptet szerkesztjük
-        setModalMode("recipe");     // közvetlenül a recept formot nyitjuk
+        setEditingRecipe(recipe);
+        setModalMode("recipe");
     };
-
 
     const openChooserModal = () => {
         setModalMode("chooser");
+        setEditingRecipe(null);
     };
 
     const openRecipeModal = () => {
         setModalMode("recipe");
+        setEditingRecipe(null);
     };
 
     const openCategoryModal = () => {
         setModalMode("category");
+        setEditingRecipe(null);
     };
 
     const closeModal = () => {
@@ -131,32 +120,64 @@ export const RecipeApp = () => {
     };
 
     const handleSaveCategory = (name: string) => {
-        addCategory(name);
-        setModalMode("none");
+        const trimmed = name.trim();
+        if (!trimmed) return;
+        addCategory(trimmed);
+        closeModal();
     };
 
+    const handleDeleteCategory = (name: string) => {
+        deleteCategory(name);            // useCategories-ből
+        clearCategoryFromRecipes(name);  // useRecipes-ből
+    };
 
 
     const handleSaveRecipe = (
         data: Omit<Recipe, "id">,
         idToUpdate?: number | null
     ) => {
+        // ha új kategória, vegyük fel
         if (data.category) {
             addCategory(data.category);
         }
 
-        saveRecipe(data, idToUpdate);
+        saveRecipe(data, idToUpdate ?? undefined);
         closeModal();
     };
 
+    const handleDeleteRecipe = (id: number) => {
+        deleteRecipe(id);
 
+        // ha a törölt recept volt kiválasztva, lépjünk vissza listára
+        if (selected && selected.id === id) {
+            clear();
+        }
+    };
 
+    // --- Szűrők ---
+
+    const handleApplyFilters = (values: RecipeFilterValues) => {
+        setFilters(values);
+        setIsFilterOpen(false);
+    };
+
+    const handleClearFilterValues = () => {
+        setFilters({
+            category: "",
+            ingredientQuery: "",
+            difficulty: "",
+            timeRange: "",
+            priceLevel: "",
+        });
+    };
+
+    const isBlurred = modalMode !== "none" || isFilterOpen;
 
     return (
         <div className="recipe-app-root">
             <div
                 className={
-                    modalMode !== "none"
+                    isBlurred
                         ? "recipe-app-blur-wrapper is-blurred"
                         : "recipe-app-blur-wrapper"
                 }
@@ -165,59 +186,58 @@ export const RecipeApp = () => {
                 {!selected && (
                     <div className="recipe-list-container">
                         <div className="recipe-main-layout">
-                            {/* BAL OLDAL – kategóriák */}
+                            {/* Bal oldal – kategóriák */}
                             <CategoryList
                                 categories={categories}
                                 selectedCategory={selectedCategory}
                                 onSelectCategory={handleSelectCategory}
+                                onDeleteCategory={handleDeleteCategory}
                             />
 
-                            {/* JOBB OLDAL – recept kártyák */}
+                            {/* Jobb oldal – recept kártyák */}
                             <div className="recipe-main-content">
                                 <h1>Receptlista</h1>
 
                                 <RecipeList
                                     recipes={filteredRecipes}
                                     shoppingItems={shoppingItems}
-                                    onSelect={selectRecipe}
+                                    onSelect={select}
                                     onToggleIngredient={toggleIngredientInShoppingList}
                                     onEdit={openEditForm}
-                                    onDelete={deleteRecipe}
+                                    onDelete={handleDeleteRecipe}
                                 />
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* DETAIL NÉZET – TELJESEN KÜLÖN LAYOUT */}
+                {/* DETAIL NÉZET */}
                 {selected && (
                     <div className="recipe-detail-container">
-                        <button className="back-button" onClick={clearSelected}>
+                        <button className="back-button" onClick={clear}>
                             ← Vissza
                         </button>
 
-                        {/* A RecipeDetails-ben legyen a .detail-layout grid */}
                         <RecipeDetails
                             recipe={selected}
                             shoppingItems={shoppingItems}
                             onToggleIngredient={toggleIngredientInShoppingList}
                             onEditRecipe={openEditForm}
-                            onDeleteRecipe={deleteRecipe}
+                            onDeleteRecipe={handleDeleteRecipe}
                         />
+                    </div>
+                )}
+
+                {/* Lebegő gombok csak listanézetben, modal/szűrő nélkül */}
+                {!selected && modalMode === "none" && !isFilterOpen && (
+                    <div className="floating-actions">
+                        <FilterRecipesButton onClick={() => setIsFilterOpen(true)} />
+                        <AddRecipeButton onClick={openChooserModal} />
                     </div>
                 )}
             </div>
 
-            {/* Lebegő gombok csak listanézetben, modal nélkül */}
-            {!selected && modalMode === "none" && (
-                <div className="floating-actions">
-                    {/* 🔼 SZŰRŐ GOMB – a hozzáadás gomb felett */}
-                    <FilterRecipesButton onClick={() => setIsFilterOpen(true)} />
-                    <AddRecipeButton onClick={openChooserModal} />
-                </div>
-            )}
-
-            {/* Modal overlay */}
+            {/* Fő modal (chooser / recipe / category) */}
             <ModalOverlay
                 mode={modalMode}
                 categories={categories}
@@ -229,7 +249,7 @@ export const RecipeApp = () => {
                 onSaveCategory={handleSaveCategory}
             />
 
-            {/* 🔽 Szűrő “oldal” / overlay */}
+            {/* Szűrő overlay / oldal */}
             {isFilterOpen && (
                 <FilterRecipesPage
                     categories={categories}
@@ -238,22 +258,11 @@ export const RecipeApp = () => {
                     ingredientSuggestions={ingredientSuggestions}
                     ALL_CATEGORY_NAME={ALL_CATEGORY_NAME}
                     onChangeCategory={handleSelectCategory}
-                    onApplyFilters={setFilters}
-                    onClearFilters={() =>
-                        setFilters({
-                            category: "",
-                            ingredientQuery: "",
-                            difficulty: "",
-                            timeRange: "",
-                            priceLevel: "",
-                        })
-                    }
+                    onApplyFilters={handleApplyFilters}
+                    onClearFilters={handleClearFilterValues}
                     onClose={() => setIsFilterOpen(false)}
                 />
             )}
-
-
-
         </div>
     );
 };
