@@ -2,6 +2,7 @@ import { useState, useEffect } from "preact/hooks";
 import { Recipe } from "../types/Recipe";
 import { Ingredient } from "../types/Ingredient";
 import "./RecipeForm.css";
+import { TimeRangeKey } from "../types/recipeMeta";
 
 // ha bevezetted, ezeket érdemes importálni a típusokhoz:
 // import type { Difficulty, PriceLevel } from "../types/Recipe";
@@ -13,7 +14,6 @@ interface RecipeFormProps {
     categories: string[];
 }
 
-type TimeRangeKey = "0-10" | "10-30" | "30-60" | "60+";
 
 export const RecipeForm = ({
     onSave,
