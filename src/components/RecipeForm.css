@@ -189,11 +189,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
+
+
 /* Lépéslista előnézet */
 
 .instruction-list-preview {
-  margin-top: 0.6rem;
-  padding-left: 1.3rem;
+  margin-top: 0.5rem;
+  padding-left: 0;
+  list-style: none;
   font-size: 0.9rem;
 }
 
@@ -202,18 +205,22 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.35rem 0.2rem;
-  border-bottom: 1px dashed #eee;
+  padding: 0.35rem 0.6rem;
+  margin-bottom: 0.25rem;
+  border-radius: 6px;
+  border: 1px solid #e1e1e1;
+  background: #f7f7f7;
 }
 
 .instruction-list-item:last-child {
-  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .instruction-list-text {
   color: #333;
 }
 
+/* a törlés gomb maradhat, ahogy eddig is volt */
 .instruction-remove-button {
   border: none;
   background: #ffdddd;
@@ -228,6 +235,7 @@
 .instruction-remove-button:hover {
   background: #ffcccc;
 }
+
 
 .new-recipe-image-preview {
   margin-top: 0.5rem;
@@ -263,6 +271,27 @@
 }
 
 .new-recipe-form .form-row--inline-3 .form-field select {
+  width: 100%;
+}
+
+.form-error {
+  color: #d9534f;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+.form-error + input,
+.form-error + textarea,
+.form-error + select {
+  border-color: #d9534f !important;
+}
+
+.ingredient-error-row {
+  margin-top: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.ingredient-error-row .form-error {
+  text-align: center;
   width: 100%;
 }
 

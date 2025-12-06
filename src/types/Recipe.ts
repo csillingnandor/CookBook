@@ -1,7 +1,7 @@
 import { Ingredient } from "./Ingredient";
+import { Difficulty, PriceLevel } from "./recipeMeta";
 
-export type Difficulty = "könnyű" | "közepes" | "nehéz";
-export type PriceLevel = "olcsó" | "megfizethető" | "drága";
+
 
 
 export interface Recipe {

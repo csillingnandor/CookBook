@@ -6,6 +6,7 @@ import { TimeRangeKey } from "../types/recipeMeta";
 import { IngredientEditor } from "./IngredientEditor";
 import { InstructionEditor } from "./InstructionEditor";
 import { BasicDropDownField } from "./BasicDropDownField";
+import { FormError } from "./FormError";
 
 // ha bevezetted, ezeket érdemes importálni a típusokhoz:
 // import type { Difficulty, PriceLevel } from "../types/Recipe";
@@ -44,6 +45,15 @@ export const RecipeForm = ({
     const [timeRange, setTimeRange] = useState<TimeRangeKey | "">("");
     const [difficulty, setDifficulty] = useState<string>("");   // pl. "könnyű" | "közepes" | "nehéz"
     const [priceLevel, setPriceLevel] = useState<string>("");   // pl. "olcsó" | "megfizethető" | "drága"
+
+    const [errors, setErrors] = useState<{
+        title?: string;
+        ingredientName?: string;
+        ingredientAmount?: string;
+        instructionText?: string;
+    }>({});
+
+
 
     // EDIT mód: amikor kapunk initialRecipe-et, töltsük ki a mezőket
     useEffect(() => {
@@ -108,36 +118,72 @@ export const RecipeForm = ({
         const unit = ingredientUnit.trim();
 
         if (!name) {
-            alert("A hozzávaló neve kötelező.");
+            setFieldError("ingredientName", "A hozzávaló neve kötelező.");
             return;
         }
+        clearFieldError("ingredientName");
+
 
         if (!amountStr) {
-            alert("A mennyiség megadása kötelező.");
+            setFieldError("ingredientAmount", "A mennyiség megadása kötelező.");
             return;
         }
+        clearFieldError("ingredientAmount");
+
 
         const amount = Number(amountStr);
         if (Number.isNaN(amount)) {
-            alert("A mennyiségnek számnak kell lennie (pl. 200).");
+            setFieldError(
+                "ingredientAmount",
+                "A mennyiségnek számnak kell lennie (pl. 200)."
+            );
             return;
         }
+        clearFieldError("ingredientAmount");
+
+
+        if (amount < 0) {
+            setFieldError("ingredientAmount", "A mennyiség nem lehet negatív.");
+            return;
+        }
+
 
         const newIngredient: Ingredient = { name, amount, unit };
         setIngredients((prev) => [...prev, newIngredient]);
         resetIngredientFields();
     };
 
+    const setFieldError = (field: keyof typeof errors, message: string) => {
+        setErrors((prev) => ({ ...prev, [field]: message }));
+    };
+
+    const clearFieldError = (field: keyof typeof errors) => {
+        setErrors((prev) => {
+            const next = { ...prev };
+            delete next[field];
+            return next;
+        });
+    };
+
+
+
     const handleRemoveIngredient = (index: number) => {
         setIngredients((prev) => prev.filter((_, i) => i !== index));
     };
 
     const handleAddInstruction = () => {
-        const text = instructionText.trim();
-        if (!text) return;
-        setInstructions((prev) => [...prev, text]);
+        const trimmed = instructionText.trim();
+
+        if (!trimmed) {
+            setFieldError("instructionText", "A lépés szövege nem lehet üres.");
+            return;
+        }
+
+        clearFieldError("instructionText");
+        setInstructions((prev) => [...prev, trimmed]);
         setInstructionText("");
     };
+
 
     const handleRemoveInstruction = (index: number) => {
         setInstructions((prev) => prev.filter((_, i) => i !== index));
@@ -157,12 +203,44 @@ export const RecipeForm = ({
     const handleSubmit = (e: Event) => {
         e.preventDefault();
 
+        let hasError = false;
+
+        // Cím kötelező
         if (!title.trim()) {
-            alert("A recept címe kötelező.");
-            return;
+            setFieldError("title", "A recept címe kötelező.");
+            hasError = true;
+        } else {
+            clearFieldError("title");
         }
 
-        // 🔽 timeRange → konkrét perc érték (a range középtájára/határára lőve)
+        // Legalább 1 hozzávaló
+        if (ingredients.length === 0) {
+            setFieldError(
+                "ingredientName",
+                "Adj meg legalább egy hozzávalót."
+            );
+            hasError = true;
+        } else if (errors.ingredientName) {
+            // ha korábban volt hiba, de most már van hozzávaló
+            clearFieldError("ingredientName");
+        }
+
+        // Legalább 1 lépés
+        if (instructions.length === 0) {
+            setFieldError(
+                "instructionText",
+                "Adj meg legalább egy lépést az elkészítéshez."
+            );
+            hasError = true;
+        } else if (errors.instructionText) {
+            clearFieldError("instructionText");
+        }
+
+        if (hasError) {
+            return; // ne mentsen, ha bármelyik hiba fennáll
+        }
+
+        // 🔽 timeRange → konkrét perc érték
         let time: number | undefined;
         switch (timeRange) {
             case "0-10":
@@ -188,8 +266,6 @@ export const RecipeForm = ({
             instructions,
             image: imagePreview ?? initialRecipe?.image,
             category: category || undefined,
-
-            // 🔽 ÚJ mezők
             time,
             difficulty: (difficulty || undefined) as any,
             priceLevel: (priceLevel || undefined) as any,
@@ -197,6 +273,7 @@ export const RecipeForm = ({
 
         onSave(recipeData, initialRecipe?.id ?? null);
     };
+
 
     return (
         <form className="new-recipe-form" onSubmit={handleSubmit as any}>
@@ -214,6 +291,7 @@ export const RecipeForm = ({
                         placeholder="pl. Rakott krumpli"
                     />
                 </label>
+                <FormError message={errors.title} />
             </div>
 
             <div className="form-row">
@@ -320,6 +398,8 @@ export const RecipeForm = ({
                 onChangeUnit={setIngredientUnit}
                 onAdd={handleAddIngredient}
                 onRemove={handleRemoveIngredient}
+                nameError={errors.ingredientName}
+                amountError={errors.ingredientAmount}
             />
 
 
@@ -330,6 +410,7 @@ export const RecipeForm = ({
                 onChangeText={setInstructionText}
                 onAdd={handleAddInstruction}
                 onRemove={handleRemoveInstruction}
+                error={errors.instructionText}
             />
 
             <div className="new-recipe-form-actions">
