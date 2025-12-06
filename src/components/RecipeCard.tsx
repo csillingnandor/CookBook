@@ -40,17 +40,23 @@ export const RecipeCard = ({
   };
 
   return (
-    <div
-      className={`recipe-card ${className ?? ""}`}   // 🔽 ITT HASZNÁLJUK
-      onClick={onClick}>
+  <div
+    className={`recipe-card ${className ?? ""}`}
+    onClick={onClick}
+  >
+    <div className="recipe-card__content">
       {recipe.image && (
         <img src={recipe.image} alt={recipe.title} className="recipe-image" />
       )}
 
       <h3>{recipe.title}</h3>
-      <p>{recipe.description}</p>
 
-      {/* 🔽 ÚJ META INFÓK BLOKK */}
+      <p className="recipe-description">
+        {recipe.description?.trim()
+          ? recipe.description
+          : "Nincs leírás"}
+      </p>
+
       {(recipe.time || recipe.difficulty || recipe.priceLevel) && (
         <div className="recipe-meta">
           {recipe.time && (
@@ -65,32 +71,36 @@ export const RecipeCard = ({
         </div>
       )}
 
+      {/* 👇 Itt van újra az IngredientsBox */}
       <IngredientsBox
         ingredients={recipe.ingredients}
         visible={isSelected}
         shoppingItems={shoppingItems}
         onToggleIngredient={onToggleIngredient}
       />
-
-      <div
-        className="recipe-card__actions"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          className="recipe-card__icon-button recipe-card__icon-button--edit"
-          onClick={handleEditClick as any}
-        >
-          ✎
-        </button>
-        <button
-          type="button"
-          className="recipe-card__icon-button recipe-card__icon-button--delete"
-          onClick={handleDeleteClick as any}
-        >
-          🗑
-        </button>
-      </div>
     </div>
-  );
+
+    <div
+      className="recipe-card__actions"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        type="button"
+        className="recipe-card__icon-button recipe-card__icon-button--edit"
+        onClick={handleEditClick as any}
+      >
+        ✎
+      </button>
+      <button
+        type="button"
+        className="recipe-card__icon-button recipe-card__icon-button--delete"
+        onClick={handleDeleteClick as any}
+      >
+        🗑
+      </button>
+    </div>
+  </div>
+);
+
+
 };

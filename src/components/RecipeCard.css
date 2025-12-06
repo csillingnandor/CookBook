@@ -19,6 +19,14 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
 }
 
+/* A kártya „törzse” – cím, leírás, badge-ek, IngredientsBox */
+.recipe-card__content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Kép a kártya tetején */
 .recipe-image {
   width: 100%;
   height: 200px;
@@ -27,6 +35,7 @@
   margin-bottom: 0.75rem;
 }
 
+/* Cím – egy sor, "..."-al vágva */
 .recipe-card h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.3rem;
@@ -38,38 +47,57 @@
   text-overflow: ellipsis;
 }
 
-
-.recipe-card p {
+/* Leírás – listanézetben 2 soros előnézet, ha üres, "Nincs leírás" */
+.recipe-description {
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* két soros előnézet */
   -webkit-box-orient: vertical;
   overflow: hidden;
-
   word-wrap: break-word;
   overflow-wrap: break-word;
+  color: #ccc;
 }
 
-/* DETAIL nézet – ne használjon line-clamp-et */
-.recipe-card--detail p {
+/* DETAIL nézet – teljes leírás, ne legyen clampelve */
+.recipe-card--detail .recipe-description {
   display: block;
   -webkit-line-clamp: unset;
-  white-space: normal;
   overflow: visible;
-
+  white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
+/* Badge-ek sora (idő, nehézség, ár) */
+.recipe-meta {
+  display: flex;
+  flex-wrap: nowrap;        /* ➜ mindig egy sorban tartjuk őket */
+  gap: 0.35rem;             /* kisebb hézag */
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;   /* kevesebb hely alatta */
+  align-items: center;
+}
 
+.recipe-meta-item {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.18rem 0.45rem;  /* keskenyebb badge */
+  border-radius: 999px;
+  font-size: 0.8rem;         /* kisebb betűméret */
+  color: #ddd;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  white-space: nowrap;       /* ne törjön több sorba */
+}
 
-
-
-
+/* Alsó action sor – szerkesztés / törlés ikonok
+   A kártya alján, egységes magasságban jelenjen meg */
 .recipe-card__actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
 }
 
 .recipe-card__icon-button {
@@ -97,28 +125,3 @@
   color: #ff6b6b;
   transform: translateY(-1px);
 }
-
-.recipe-meta {
-  display: flex;
-  flex-wrap: nowrap;        /* ➜ mindig egy sorban tartjuk őket */
-  gap: 0.35rem;             /* kisebb hézag */
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;   /* kevesebb hely alatta */
-  align-items: center;
-}
-
-.recipe-meta-item {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 0.18rem 0.45rem;  /* keskenyebb badge */
-  border-radius: 999px;
-  font-size: 0.8rem;         /* kisebb betűméret */
-  color: #ddd;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-  white-space: nowrap;       /* ne törjön több sorba */
-}
-
-
-
-
