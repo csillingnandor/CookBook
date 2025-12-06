@@ -1,0 +1,80 @@
+/* --- Instrukciók (lépések) – InstructionEditor --- */
+
+.instruction-input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+.instruction-input-row input {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font: inherit;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #222;
+}
+
+.instruction-add-button {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffb347;
+  color: #fff;
+}
+
+.instruction-add-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+/* Lépéslista előnézet */
+
+.instruction-list-preview {
+  margin-top: 0.6rem;
+  padding-left: 1.3rem;
+  font-size: 0.9rem;
+}
+
+.instruction-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.2rem;
+  border-bottom: 1px dashed #eee;
+}
+
+.instruction-list-item:last-child {
+  border-bottom: none;
+}
+
+.instruction-list-text {
+  color: #333;
+}
+
+.instruction-remove-button {
+  border: none;
+  background: #ffdddd;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  color: #c0392b;
+}
+
+.instruction-remove-button:hover {
+  background: #ffcccc;
+}

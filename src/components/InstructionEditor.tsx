@@ -1,6 +1,6 @@
 // src/components/InstructionEditor.tsx
 import { FormError } from "./FormError";
-import "./RecipeForm.css";
+import "./InstructionEditor.css";
 
 interface InstructionEditorProps {
     instructions: string[];

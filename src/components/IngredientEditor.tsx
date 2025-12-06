@@ -1,7 +1,7 @@
 // src/components/IngredientEditor.tsx
 import { Ingredient } from "../types/Ingredient";
 import { FormError } from "./FormError";
-import "./RecipeForm.css";
+import "./IngredientEditor.css";
 
 interface IngredientEditorProps {
     ingredients: Ingredient[];

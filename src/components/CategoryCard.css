@@ -1,0 +1,94 @@
+/* ===========================
+   CategoryCard
+   =========================== */
+
+.category-card {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  margin: 0;
+  background: #262626;
+  color: #f5f5f5;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.category-card:hover {
+  background: #2f2f2f;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Kijelölt kategória */
+.category-card--selected {
+  background: #ffb347;
+  color: #141414;
+}
+
+/* Kijelölt + hover */
+.category-card--selected:hover {
+  background: #ffc469;
+}
+
+/* Kategória neve – hosszú szöveg elvágása */
+.category-card__label {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Törlés ikon */
+.category-card__delete {
+  flex: 0 0 auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.category-card__delete:hover {
+  background: rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Ha mobilon nagyon kicsi a hely, engedjünk kicsit kisebb paddinget */
+@media (max-width: 600px) {
+  .category-card {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .category-card__delete {
+    width: 1.4rem;
+    height: 1.4rem;
+    font-size: 0.8rem;
+  }
+}

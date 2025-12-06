@@ -1,4 +1,5 @@
-import "./CategoryList.css";
+
+import "./CategoryCard.css"
 
 interface CategoryCardProps {
   name: string;

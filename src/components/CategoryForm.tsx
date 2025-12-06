@@ -27,7 +27,6 @@ export const CategoryForm = ({ onSave, onClose }: CategoryFormProps) => {
   };
 
   return (
-    // ⬅ VISSZA A RÉGI OSZTÁLY: new-recipe-form
     <form className="new-recipe-form" onSubmit={handleSubmit as any}>
       <h2>Új kategória</h2>
 

@@ -1,8 +1,7 @@
 import { Recipe } from "../types/Recipe";
 import { RecipeForm } from "./RecipeForm";
 import { CategoryForm } from "./CategoryForm";
-import "./RecipeList.css";
-import "./CategoryForm.css";
+import "./ModalOverlay.css";
 
 export type ModalMode = "none" | "chooser" | "recipe" | "category";
 

@@ -1,103 +1,22 @@
-/* Oldalsáv a kategóriáknak */
+/* ===========================
+   CategoryList (lista konténer)
+   =========================== */
 
 .category-list {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-right: 1rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-  margin-right: 1.5rem;
+
+  width: 230px;
+  padding: 0.75rem 0.5rem;
+  box-sizing: border-box;
 }
 
-/* Kategória kártya / gomb */
-
-.category-card {
-  width: 100%;
-  text-align: left;
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.95rem;
-  background: #2a2a2a;
-  color: #ddd;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-.category-card:hover {
-  background: #333;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-}
-
-.category-card--selected {
-  background: #ffb347;
-  color: #222;
-  font-weight: 600;
-}
-
-/* Mobilon / keskeny nézetben legyen felül a kategórialista */
-
-@media (max-width: 800px) {
-  .recipe-main-layout {
-    grid-template-columns: 1fr;
-  }
-
+/* kisebb képernyőn ne foglaljon túl sok helyet oldalról */
+@media (max-width: 900px) {
   .category-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    border-right: none;
-    margin-right: 0;
+    width: 100%;
+    max-width: 340px;
     margin-bottom: 1rem;
-    padding-right: 0;
-    gap: 0.4rem;
   }
-
-  .category-card {
-    flex: 0 0 auto;
-  }
-}
-
-
-/* A kártya tartalma egy sor, balra a név, jobbra a törlés ikon */
-
-.category-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-/* A név ellipszissel vágódjon le, ha nem fér ki */
-
-.category-card__label {
-  flex: 1;
-  min-width: 0; /* fontos, hogy az ellipsis működjön flex-ben */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Törlés "ikon" */
-
-.category-card__delete {
-  flex: 0 0 auto;
-  padding: 0.1rem 0.45rem;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.2);
-  font-size: 0.85rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.category-card--selected .category-card__delete {
-  background: rgba(0, 0, 0, 0.15);
-}
-
-.category-card__delete:hover {
-  background: rgba(0, 0, 0, 0.35);
 }
