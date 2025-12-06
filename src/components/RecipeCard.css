@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: stretch;
   width: 100%;
   padding: 1.5rem;
@@ -30,7 +31,13 @@
   margin: 0 0 0.5rem 0;
   font-size: 1.3rem;
   font-weight: 700;
+  color: #fff;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 
 .recipe-card p {
   display: -webkit-box;

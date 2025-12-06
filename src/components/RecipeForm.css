@@ -31,7 +31,7 @@
   font: inherit;
   box-sizing: border-box;
   background: #ffffff;
-  color: #222;
+  color: #222;  
 }
 
 .new-recipe-form input::placeholder,
