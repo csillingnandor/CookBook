@@ -20,6 +20,22 @@ interface IngredientEditorProps {
     amountError?: string;
 }
 
+/**
+ * @remarks Hozzávaló szerkesztő komponens, amely lehetővé teszi a felhasználó számára új hozzávalók hozzáadását és meglévők eltávolítását.
+ * @param ingredients a hozzávalók listája
+ * @param nameValue a hozzávaló név mező értéke
+ * @param amountValue a hozzávaló mennyiség mező értéke
+ * @param unitValue a hozzávaló mértékegység mező értéke
+ * @param onChangeName eseménykezelő a név mező változására
+ * @param onChangeAmount eseménykezelő a mennyiség mező változására
+ * @param onChangeUnit eseménykezelő a mértékegység mező változására
+ * @param onAdd eseménykezelő új hozzávaló hozzáadására
+ * @param onRemove eseménykezelő hozzávaló eltávolítására
+ * @param nameError opcionális hibaüzenet a név mezőhöz
+ * @param amountError opcionális hibaüzenet a mennyiség mezőhöz
+ * @returns 
+ */
+
 export const IngredientEditor = ({
     ingredients,
     nameValue,

@@ -25,6 +25,20 @@ interface FilterRecipesPageProps {
   onClose: () => void;
 }
 
+/**
+ * @remarks Szűrő oldal komponens a receptek szűréséhez különböző kritériumok alapján.
+ * @param categories a kategóriák listája
+ * @param selectedCategory a kiválasztott kategória neve
+ * @param filters a jelenlegi szűrőértékek
+ * @param ingredientSuggestions az alapanyag javaslatok listája
+ * @param ALL_CATEGORY_NAME az "Összes" kategória neve
+ * @param onChangeCategory a kategória változásának eseménykezelője
+ * @param onApplyFilters a szűrők alkalmazásának eseménykezelője
+ * @param onClearFilters a szűrők törlésének eseménykezelője
+ * @param onClose a szűrő oldal bezárásának eseménykezelője
+ * @returns 
+ */
+
 export const FilterRecipesPage = ({
   categories,
   selectedCategory,

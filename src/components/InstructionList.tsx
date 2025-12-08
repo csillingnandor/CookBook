@@ -6,6 +6,12 @@ interface InstructionListProps {
   recipe: Recipe | null;
 }
 
+/**
+ * @remarks Elkészítési lépések listája komponens, amely megjeleníti egy recept elkészítési lépéseit.
+ * @param recipe A recept objektum, amely tartalmazza az elkészítési lépéseket
+ * @returns 
+ */
+
 export const InstructionList = ({ recipe }: InstructionListProps) => {
   if (!recipe || !recipe.instructions || recipe.instructions.length === 0) {
     return null;

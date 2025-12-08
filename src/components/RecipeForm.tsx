@@ -18,6 +18,14 @@ interface RecipeFormProps {
     categories: string[];
 }
 
+/**
+ * @remarks Recept űrlap komponens új recept hozzáadásához vagy meglévő szerkesztéséhez.
+ * @param onSave a recept mentésének eseménykezelője
+ * @param onClose a űrlap bezárásának eseménykezelője
+ * @param initialRecipe opcionális kezdeti recept adatok szerkesztés esetén
+ * @param categories a kategóriák listája
+ * @returns 
+ */
 
 export const RecipeForm = ({
     onSave,
@@ -41,7 +49,6 @@ export const RecipeForm = ({
 
     const [imagePreview, setImagePreview] = useState<string | undefined>();
 
-    // 🔽 ÚJ: időintervallum, nehézség, ár
     const [timeRange, setTimeRange] = useState<TimeRangeKey | "">("");
     const [difficulty, setDifficulty] = useState<string>("");   // pl. "könnyű" | "közepes" | "nehéz"
     const [priceLevel, setPriceLevel] = useState<string>("");   // pl. "olcsó" | "megfizethető" | "drága"

@@ -9,6 +9,16 @@ interface CategoryCardProps {
   canDelete?: boolean;        
 }
 
+/**
+ * @remarks Kategória kártya komponens, amely megjeleníti a kategória nevét, és lehetőséget biztosít a kategória kiválasztására és törlésére.
+ * @param name a kategória neve
+ * @param onClick a kategória kiválasztásának eseménykezelője
+ * @param onDelete a kategória törlésének eseménykezelője
+ * @param canDelete ha true, megjelenik a törlés ikon, alapértelmezett érték: true
+ * @param isSelected a kategória kiválasztott állapota
+ * @returns 
+ */
+
 export const CategoryCard = ({
   name,
   isSelected,

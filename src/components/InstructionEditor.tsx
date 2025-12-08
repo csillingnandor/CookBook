@@ -12,6 +12,17 @@ interface InstructionEditorProps {
     error?: string;
 }
 
+/**
+ * @remarks Elkészítési lépés szerkesztő komponens, amely lehetővé teszi a felhasználó számára új lépések hozzáadását és meglévők eltávolítását.
+ * @param instructions a lépések listája
+ * @param textValue az új lépés szöveg mező értéke
+ * @param onChangeText eseménykezelő a lépés szöveg mező változására
+ * @param onAdd eseménykezelő új lépés hozzáadására
+ * @param onRemove eseménykezelő lépés eltávolítására
+ * @param error opcionális hibaüzenet a lépés mezőhöz
+ * @returns 
+ */
+
 export const InstructionEditor = ({
     instructions,
     textValue,

@@ -14,6 +14,18 @@ interface RecipeCardProps {
   className?: string;
 }
 
+/**
+ * @remarks Recept kártya komponens, amely megjeleníti a recept alapvető adatait, és lehetőséget biztosít a szerkesztésre, törlésre, valamint a hozzávalók kezelésére.
+ * @param recipe a megjelenítendő recept objektum
+ * @param isSelected ha true, a hozzávalók doboza látható
+ * @param shoppingItems a bevásárlólista elemei
+ * @param onClick a kártya kattintás eseménykezelője
+ * @param onToggleIngredient eseménykezelő egy hozzávaló hozzáadására vagy eltávolítására a bevásárlólistáról
+ * @param onEdit eseménykezelő a recept szerkesztésére
+ * @param onDelete eseménykezelő a recept törlésére
+ * @param className opcionális további CSS osztályok a kártya számára
+ * @returns 
+ */
 
 export const RecipeCard = ({
   recipe,

@@ -2,6 +2,11 @@ import { useState } from "preact/hooks";
 import type { Recipe } from "../types/Recipe";
 import type { ModalMode } from "../components/ModalOverlay";
 
+/**
+ * @remarks Testreszabott hook a modal ablakok kezeléséhez a recept alkalmazásban.
+ * @returns 
+ */
+
 export function useRecipeModals() {
   const [modalMode, setModalMode] = useState<ModalMode>("none");
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);

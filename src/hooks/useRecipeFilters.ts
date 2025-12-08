@@ -3,6 +3,14 @@ import { Recipe } from "../types/Recipe";
 import { filterRecipes } from "../utils/recipeFilter";
 import type { RecipeFilterValues } from "../components/FilterRecipesPage";
 
+/**
+ * @remarks Testreszabott hook a receptek szűréséhez különböző kritériumok alapján.
+ * @param allRecipes az összes recept
+ * @param selectedCategory a kiválasztott kategória neve
+ * @param ALL_CATEGORY_NAME az "Összes" kategória neve
+ * @returns 
+ */
+
 export function useRecipeFilters(
   allRecipes: Recipe[],
   selectedCategory: string,

@@ -6,6 +6,11 @@ const SELECTED_CATEGORY_KEY = "receptkonyv_selectedCategory";
 // A "Összes" nem kerül a localStorage-be, csak logikai default
 const ALL_CATEGORY_NAME = "Összes";
 
+/**
+ * @remarks Testreszabott hook a kategóriák kezeléséhez, beleértve a hozzáadás, kiválasztás és törlés funkciókat.
+ * @returns 
+ */
+
 export function useCategories() {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] =

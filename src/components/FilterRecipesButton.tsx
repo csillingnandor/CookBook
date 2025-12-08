@@ -3,7 +3,11 @@ import "./FilterRecipesButton.css"
 interface FilterRecipesButtonProps {
   onClick: () => void;
 }
-
+/**
+ * @remarks Egyszerű gomb komponens a receptek szűréséhez.
+ * @param onClick A gombra kattintás eseménykezelője 
+ * @returns 
+ */
 export const FilterRecipesButton = ({ onClick }: FilterRecipesButtonProps) => {
   return (
     <button

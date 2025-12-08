@@ -8,6 +8,13 @@ interface CategoryFormProps {
   onClose: () => void;
 }
 
+/**
+ * @remarks Kategória űrlap komponens új kategória hozzáadásához.
+ * @param onSave a mentés eseménykezelője
+ * @param onClose a bezárás eseménykezelője
+ * @returns 
+ */
+
 export const CategoryForm = ({ onSave, onClose }: CategoryFormProps) => {
   const [name, setName] = useState("");
   const [error, setError] = useState<string | undefined>();

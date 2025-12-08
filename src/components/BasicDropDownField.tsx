@@ -12,6 +12,15 @@ interface BasicDropDownFieldProps {
   onChange: (value: string) => void;
 }
 
+/**
+ * @remarks Egyszerű legördülő mező komponens.
+ * @param label A legördülő mező címkéje
+ * @param value A kiválasztott érték
+ * @param options Az elérhető opciók listája
+ * @param onChange Eseménykezelő a kiválasztott érték változására
+ * @returns 
+ */
+
 export const BasicDropDownField = ({
   label,
   value,

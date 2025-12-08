@@ -1,6 +1,12 @@
 import { useEffect, useState } from "preact/hooks";
 import { Recipe } from "../types/Recipe";
 
+/**
+ * @remarks Testreszabott hook a kiválasztott recept kezeléséhez, beleértve a kiválasztás és törlés funkciókat.
+ * @param recipes Az összes recept tömbje
+ * @returns 
+ */
+
 export function useSelectedRecipe(recipes: Recipe[]) {
   const [selected, setSelected] = useState<Recipe | null>(null);
 

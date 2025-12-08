@@ -5,6 +5,12 @@ interface ShoppingListProps {
   items: Ingredient[];
 }
 
+/**
+ * @remarks Bevásárlólista komponens, amely megjeleníti a bevásárlólista elemeit.
+ * @param items a bevásárlólista elemei
+ * @returns 
+ */
+
 export const ShoppingList = ({ items }: ShoppingListProps) => {
   if (!items.length) return null;
 

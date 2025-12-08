@@ -8,7 +8,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Minden elem legyen border-box, ez is segít az overflow elkerülésében */
 *,
 *::before,
 *::after {
@@ -21,7 +20,6 @@ body {
   background: #121212;
   color: #f5f5f5;
 
-  /* ❗ soha ne legyen vízszintes görgetés */
   max-width: 100%;
   overflow-x: hidden;
 }

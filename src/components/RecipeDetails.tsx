@@ -14,6 +14,16 @@ interface RecipeDetailsProps {
   onDeleteRecipe: (id: number) => void;
 }
 
+/**
+ * @remarks Recept részletek komponens, amely megjeleníti a recept kártyáját, elkészítési lépéseit és a bevásárlólistát.
+ * @param recipe a megjelenítendő recept
+ * @param shoppingItems a bevásárlólista elemei
+ * @param onToggleIngredient eseménykezelő egy hozzávaló hozzáadására vagy eltávolítására a bevásárlólistáról
+ * @param onEditRecipe eseménykezelő a recept szerkesztésére
+ * @param onDeleteRecipe eseménykezelő a recept törlésére 
+ * @returns 
+ */
+
 export const RecipeDetails = ({
   recipe,
   shoppingItems,

@@ -18,6 +18,11 @@ function getRandomFallbackImage(): string {
   return FALLBACK_IMAGES[idx];
 }
 
+/**
+ * @remarks Testreszabott hook a receptek kezeléséhez, beleértve a létrehozás, frissítés, törlés és kategória tisztítás funkciókat.
+ * @returns 
+ */
+
 export function useRecipes() {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
 

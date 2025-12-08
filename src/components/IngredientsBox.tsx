@@ -8,6 +8,15 @@ interface IngredientsBoxProps {
   onToggleIngredient: (ingredient: Ingredient) => void;
 }
 
+
+/**
+ * @remarks Hozzávalók doboz komponens, amely megjeleníti a recept hozzávalóit, és lehetőséget biztosít azok hozzáadására vagy eltávolítására a bevásárlólistáról.
+ * @param ingredients a hozzávalók listája
+ * @param visible ha true, a doboz látható
+ * @param shoppingItems a bevásárlólista elemei
+ * @param onToggleIngredient eseménykezelő egy hozzávaló hozzáadására vagy eltávolítására a bevásárlólistáról
+ * @returns 
+ */
 export const IngredientsBox = ({
   ingredients,
   visible,

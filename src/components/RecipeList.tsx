@@ -12,6 +12,17 @@ interface RecipeListProps {
   onDelete: (id: number) => void;
 }
 
+/**
+ * @remarks Recept lista komponens, amely megjeleníti a recepteket egy rácsban, és kezeli a kiválasztást, szerkesztést és törlést.
+ * @param recipes a megjelenítendő receptek listája
+ * @param shoppingItems a bevásárlólista elemei
+ * @param onSelect eseménykezelő egy recept kiválasztására
+ * @param onToggleIngredient eseménykezelő egy hozzávaló hozzáadására vagy eltávolítására a bevásárlólistáról
+ * @param onEdit eseménykezelő egy recept szerkesztésére
+ * @param onDelete eseménykezelő egy recept törlésére
+ * @returns 
+ */
+
 export const RecipeList = ({
   recipes,
   shoppingItems,

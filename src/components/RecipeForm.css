@@ -65,6 +65,7 @@
 }
 
 .new-recipe-form-actions button[type="button"] {
+  color: #222;
   background: #eee;
 }
 

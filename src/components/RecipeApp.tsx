@@ -23,6 +23,11 @@ import "./RecipeList.css";
 import "./CategoryForm.css";
 import "./RecipeApp.css";
 
+/**
+ * @remarks Fő alkalmazás komponens a receptkönyv számára, amely kezeli a receptek, kategóriák, szűrők és modálok állapotát.
+ * @returns 
+ */
+
 export const RecipeApp = () => {
   // --- Adat hookok / domain state ---
 

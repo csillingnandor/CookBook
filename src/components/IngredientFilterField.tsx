@@ -4,6 +4,14 @@ interface IngredientFilterFieldProps {
   suggestions: string[];
 }
 
+/**
+ * @remarks Alapanyag szűrő mező komponens, amely lehetővé teszi az alapanyagok bevitelét és javaslatokat kínál.
+ * @param value Az aktuális bevitt alapanyagok vesszővel elválasztott listája
+ * @param onChange Eseménykezelő az alapanyagok változására
+ * @param suggestions Az elérhető alapanyag javaslatok listája
+ * @returns 
+ */
+
 export const IngredientFilterField = ({
   value,
   onChange,

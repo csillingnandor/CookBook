@@ -1,6 +1,12 @@
 import { useMemo } from "preact/hooks";
 import { Recipe } from "../types/Recipe";
 
+/**
+ * @remarks Testreszabott hook a hozzávaló javaslatok lekéréséhez az összes recept alapján.
+ * @param allRecipes Az összes recept tömbje
+ * @returns 
+ */
+
 export const useIngredientSuggestions = (allRecipes: Recipe[]) => {
   return useMemo(() => {
     const names = new Set<string>();

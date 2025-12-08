@@ -22,6 +22,19 @@ interface ModalOverlayProps {
   onSaveCategory: (name: string) => void;
 }
 
+/**
+ * @remarks Modal overlay komponens, amely különböző modal nézeteket jelenít meg (választó, recept űrlap, kategória űrlap).
+ * @param mode a jelenlegi modal módja
+ * @param categories a kategóriák listája
+ * @param editingRecipe a szerkesztés alatt álló recept (ha van)
+ * @param onClose a modal bezárásának eseménykezelője
+ * @param onChooseRecipe a recept hozzáadásának választás eseménykezelője
+ * @param onChooseCategory a kategória hozzáadásának választás eseménykezelője
+ * @param onSaveRecipe a recept mentésének eseménykezelője
+ * @param onSaveCategory a kategória mentésének eseménykezelője
+ * @returns 
+ */
+
 export const ModalOverlay = ({
   mode,
   categories,
