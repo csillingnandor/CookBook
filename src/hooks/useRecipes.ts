@@ -96,6 +96,6 @@ export function useRecipes() {
     allRecipes,
     saveRecipe,
     deleteRecipe,
-    clearCategoryFromRecipes, // ⬅ új
+    clearCategoryFromRecipes, 
   };
 }

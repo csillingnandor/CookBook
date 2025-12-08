@@ -1,4 +1,3 @@
-// src/components/BasicDropDownField.tsx
 import "./RecipeForm.css";
 
 interface OptionItem {

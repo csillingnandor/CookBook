@@ -5,8 +5,8 @@ interface CategoryCardProps {
   name: string;
   isSelected: boolean;
   onClick: () => void;
-  onDelete?: () => void;      // opcionális törlés
-  canDelete?: boolean;        // pl. "Összes" esetén false
+  onDelete?: () => void;      
+  canDelete?: boolean;        
 }
 
 export const CategoryCard = ({
@@ -17,7 +17,7 @@ export const CategoryCard = ({
   canDelete = true,
 }: CategoryCardProps) => {
   const handleDeleteClick = (e: MouseEvent) => {
-    e.stopPropagation(); // ne válassza ki a kategóriát is
+    e.stopPropagation(); 
     if (onDelete) {
       onDelete();
     }

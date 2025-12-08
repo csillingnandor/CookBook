@@ -1,4 +1,3 @@
-// src/components/IngredientEditor.tsx
 import { Ingredient } from "../types/Ingredient";
 import { FormError } from "./FormError";
 import "./IngredientEditor.css";

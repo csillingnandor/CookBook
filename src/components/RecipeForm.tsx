@@ -195,7 +195,7 @@ export const RecipeForm = ({
 
         const reader = new FileReader();
         reader.onload = () => {
-            setImagePreview(reader.result as string); // <-- data URL
+            setImagePreview(reader.result as string); 
         };
         reader.readAsDataURL(file);
     };
@@ -237,10 +237,10 @@ export const RecipeForm = ({
         }
 
         if (hasError) {
-            return; // ne mentsen, ha bármelyik hiba fennáll
+            return; 
         }
 
-        // 🔽 timeRange → konkrét perc érték
+
         let time: number | undefined;
         switch (timeRange) {
             case "0-10":
@@ -299,7 +299,7 @@ export const RecipeForm = ({
                     Rövid leírás
                     <textarea
                         value={description}
-                        maxLength={300}   // 🔽 max 300 karakter
+                        maxLength={300}   
                         onInput={(e) =>
                             setDescription((e.target as HTMLTextAreaElement).value)
                         }
@@ -328,7 +328,6 @@ export const RecipeForm = ({
                 </label>
             </div>
 
-            {/* 🔽 ÚJ BLOKK: idő, nehézség, ár */}
 
             <div className="form-row form-row--inline-3">
                 <BasicDropDownField
@@ -403,7 +402,7 @@ export const RecipeForm = ({
             />
 
 
-            {/* INSTRUKCIÓK LÉPÉSRŐL LÉPÉSRE */}
+            {/* INSTRUKCIÓK */}
             <InstructionEditor
                 instructions={instructions}
                 textValue={instructionText}

@@ -161,7 +161,15 @@ export const RecipeApp = () => {
 
               {/* Jobb oldal – recept kártyák */}
               <div className="recipe-main-content">
-                <h1>Receptlista</h1>
+                <div className="recipe-list-header">
+                  <h1>Receptlista</h1>
+                  <p className="recipe-list-header-subtitle">
+                    {filteredRecipes.length === 0
+                      ? "Még nincs recept – kattints a jobb alsó + gombra, hogy felvegyél egyet."
+                      : `${filteredRecipes.length} recept a gyűjteményedben.`}
+                  </p>
+                  <div className="recipe-list-header-divider" />
+                </div>
 
                 <RecipeList
                   recipes={filteredRecipes}

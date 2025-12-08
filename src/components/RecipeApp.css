@@ -30,7 +30,11 @@
 .recipe-main-content {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+}
+
+.recipe-main-content h1 {
+  text-align: center;
 }
 
 /* DETAIL nézet – saját container */
@@ -66,8 +70,8 @@
   box-shadow: 0 2px 10px rgba(0,0,0,0.25);
   transition: 0.2s ease;
   
-  max-width: max-content;          /* csak akkora legyen, amekkora kell */
-  margin-bottom: 1rem;             /* legyen egy kis térköz */
+  max-width: max-content;         
+  margin-bottom: 1rem;             
 }
 
 .back-button:hover {

@@ -39,11 +39,12 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
-/* Lépéslista előnézet */
+/* Lépéslista előnézet – ugyanolyan keret, mint a hozzávalóknál */
 
 .instruction-list-preview {
-  margin-top: 0.6rem;
-  padding-left: 1.3rem;
+  margin-top: 0.5rem;
+  padding-left: 0;
+  list-style: none;          
   font-size: 0.9rem;
 }
 
@@ -52,16 +53,21 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.35rem 0.2rem;
-  border-bottom: 1px dashed #eee;
-}
-
-.instruction-list-item:last-child {
-  border-bottom: none;
+  padding: 0.35rem 0.6rem;
+  margin-bottom: 0.25rem;
+  border-radius: 6px;
+  border: 1px solid #e1e1e1;
+  background: #f7f7f7;
+  flex-wrap: wrap;          
+  box-sizing: border-box;
 }
 
 .instruction-list-text {
   color: #333;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;    
+  overflow-wrap: anywhere;
 }
 
 .instruction-remove-button {

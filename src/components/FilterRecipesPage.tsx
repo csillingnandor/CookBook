@@ -5,8 +5,8 @@ import { IngredientFilterField } from "./IngredientFilterField";
 import { TimeRangeKey, Difficulty, PriceLevel } from "../types/recipeMeta";
 
 export interface RecipeFilterValues {
-  category: string;         // "" = minden
-  ingredientQuery: string;  // vesszővel elválasztott alapanyagok
+  category: string;         
+  ingredientQuery: string;  
   difficulty: "" | Difficulty;
   timeRange: "" | TimeRangeKey;
   priceLevel: "" | PriceLevel;

@@ -8,8 +8,6 @@ interface RecipeListProps {
   shoppingItems: Ingredient[];
   onSelect: (recipe: Recipe) => void;
   onToggleIngredient: (ingredient: Ingredient) => void;
-
-  // ÚJ:
   onEdit: (recipe: Recipe) => void;
   onDelete: (id: number) => void;
 }

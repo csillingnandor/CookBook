@@ -1,4 +1,3 @@
-// src/hooks/useSelectedRecipe.ts
 import { useEffect, useState } from "preact/hooks";
 import { Recipe } from "../types/Recipe";
 

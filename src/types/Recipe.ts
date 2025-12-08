@@ -15,9 +15,8 @@ export interface Recipe {
 
   category: string;
 
-  // ÚJ ADATOK
-  time?: number;              // percekben, pl. 45
-  difficulty?: Difficulty;    // "könnyű" | "közepes" | "nehéz"
-  priceLevel?: PriceLevel;    // "olcsó" | "megfizethető" | "drága"
+  time?: number;              
+  difficulty?: Difficulty;    
+  priceLevel?: PriceLevel;    
 }
 

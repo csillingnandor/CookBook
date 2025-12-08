@@ -79,8 +79,8 @@ export function useCategories() {
 
 
   return {
-    categories,        // csak a tényleges kategóriák (Összes nélkül)
-    selectedCategory,  // aktuálisan kiválasztott (lehet "Összes" is)
+    categories,        
+    selectedCategory,  
     addCategory,
     selectCategory,
     deleteCategory,

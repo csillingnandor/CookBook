@@ -1,4 +1,3 @@
-// hooks/useBodyScrollLock.ts
 import { useEffect } from "preact/hooks";
 
 export const useBodyScrollLock = (locked: boolean) => {

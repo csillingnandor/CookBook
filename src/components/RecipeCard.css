@@ -50,7 +50,8 @@
 /* Leírás – listanézetben 2 soros előnézet, ha üres, "Nincs leírás" */
 .recipe-description {
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* két soros előnézet */
+  -webkit-line-clamp: 2;
+  /* két soros előnézet */
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-wrap: break-word;
@@ -71,23 +72,30 @@
 /* Badge-ek sora (idő, nehézség, ár) */
 .recipe-meta {
   display: flex;
-  flex-wrap: nowrap;        /* ➜ mindig egy sorban tartjuk őket */
-  gap: 0.35rem;             /* kisebb hézag */
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;   /* kevesebb hely alatta */
+  flex-wrap: wrap;
+  gap: 0.35rem 0.45rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
   align-items: center;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-content: flex-start;
 }
+
 
 .recipe-meta-item {
   background: rgba(255, 255, 255, 0.08);
-  padding: 0.18rem 0.45rem;  /* keskenyebb badge */
+  padding: 0.18rem 0.45rem;
+  /* keskenyebb badge */
   border-radius: 999px;
-  font-size: 0.8rem;         /* kisebb betűméret */
+  font-size: 0.8rem;
+  /* kisebb betűméret */
   color: #ddd;
   display: inline-flex;
   align-items: center;
   gap: 0.2rem;
-  white-space: nowrap;       /* ne törjön több sorba */
+  white-space: nowrap;
+  /* ne törjön több sorba */
 }
 
 /* Alsó action sor – szerkesztés / törlés ikonok

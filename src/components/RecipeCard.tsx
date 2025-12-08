@@ -9,12 +9,8 @@ interface RecipeCardProps {
   isSelected: boolean;
   shoppingItems: Ingredient[];
   onToggleIngredient: (ingredient: Ingredient) => void;
-
-  // ÚJ:
   onEdit?: () => void;
   onDelete?: () => void;
-
-  // 🔽 EZT ADD HOZZÁ
   className?: string;
 }
 
@@ -71,7 +67,6 @@ export const RecipeCard = ({
         </div>
       )}
 
-      {/* 👇 Itt van újra az IngredientsBox */}
       <IngredientsBox
         ingredients={recipe.ingredients}
         visible={isSelected}

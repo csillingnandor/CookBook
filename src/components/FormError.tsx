@@ -1,4 +1,3 @@
-// src/components/FormError.tsx
 import "./RecipeForm.css";
 
 interface FormErrorProps {

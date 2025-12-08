@@ -1,4 +1,3 @@
-// IngredientFilterField.tsx
 interface IngredientFilterFieldProps {
   value: string;
   onChange: (value: string) => void;

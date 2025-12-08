@@ -10,8 +10,6 @@ interface RecipeDetailsProps {
   recipe: Recipe | null;
   shoppingItems: Ingredient[];
   onToggleIngredient: (ingredient: Ingredient) => void;
-
-  // ÚJ:
   onEditRecipe: (recipe: Recipe) => void;
   onDeleteRecipe: (id: number) => void;
 }

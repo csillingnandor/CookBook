@@ -58,10 +58,17 @@
   border-radius: 6px;
   border: 1px solid #e1e1e1;
   background: #f7f7f7;
+  flex-wrap: wrap;           
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .ingredient-list-item span {
   color: #333;
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;    
+  overflow-wrap: anywhere;
 }
 
 .ingredient-remove-button {

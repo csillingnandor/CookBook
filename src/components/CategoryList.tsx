@@ -5,7 +5,7 @@ interface CategoryListProps {
   categories: string[];
   selectedCategory: string;
   onSelectCategory: (name: string) => void;
-  onDeleteCategory?: (name: string) => void;   // ⬅ ÚJ (opcionális)
+  onDeleteCategory?: (name: string) => void;  
 }
 
 export const CategoryList = ({
@@ -14,7 +14,7 @@ export const CategoryList = ({
   onSelectCategory,
   onDeleteCategory,
 }: CategoryListProps) => {
-  // Összes + az összes egyedi kategória
+
   const allCategories = ["Összes", ...categories.filter((c) => c !== "Összes")];
 
   return (
