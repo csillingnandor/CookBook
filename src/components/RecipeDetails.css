@@ -1,1 +1,19 @@
+/* ============================
+   Detail layout (három oszlop)
+   ============================ */
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 3fr 5fr 2fr;
+  gap: 1.5rem;
+  padding-top: 1rem;
+}
+
+/* A három panel alapstílusa */
+.detail-col {
+  background: transparent; /* A belső dobozok már saját színt kapnak */
+  min-width: 0;
+}
+
+
 

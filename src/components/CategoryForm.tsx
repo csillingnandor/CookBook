@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import "./RecipeForm.css";   // ⬅ régi stílus, ugyanaz mint a recept form
+import "./RecipeForm.css";  
 import "./CategoryForm.css";
 import { FormError } from "./FormError";
 

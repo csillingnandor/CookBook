@@ -1,20 +1,26 @@
+/* ============================
+   InstructionList (detail panel)
+   ============================ */
+
 .instruction-list {
-  position: relative;
-  width: 100%;
-  padding: 1.5rem 1.75rem;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-  box-sizing: border-box;
+  background: #252525;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.05);
+  color: #f5f5f5;
 }
 
 .instruction-list h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: #ffffff;
 }
 
 .instruction-list__items {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
+

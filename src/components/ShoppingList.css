@@ -1,16 +1,21 @@
+/* ============================
+   ShoppingList (detail panel)
+   ============================ */
+
 .shopping-list {
-  position: relative;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-  box-sizing: border-box;
+  background: #252525;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.05);
+  color: #f5f5f5;
 }
 
 .shopping-list h2 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1.2rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: #ffffff;
 }
 
 .shopping-list ul {
@@ -20,6 +25,12 @@
 }
 
 .shopping-list li {
-  margin-bottom: 0.4rem;
+  padding: 0.35rem 0;
   font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: #e8e8e8;
+}
+
+.shopping-list li:last-child {
+  border-bottom: none;
 }
