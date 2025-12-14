@@ -3,7 +3,6 @@
 .recipe-app-root {
   position: relative;
 
-  /* fontos: ne lógjon ki semmi a viewportból */
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -17,7 +16,9 @@
   pointer-events: none;
 }
 
-/* LISTA nézet fő layoutja (kategóriák + kártyák) */
+/* =========================
+   LISTA NÉZET – FŐ LAYOUT
+   ========================= */
 
 .recipe-main-layout {
   display: grid;
@@ -33,11 +34,95 @@
   gap: 1.5rem;
 }
 
-.recipe-main-content h1 {
+
+
+/* =========================
+   LISTA FEJLÉC + PUSH GOMB
+   ========================= */
+
+.recipe-list-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.recipe-list-header-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.recipe-list-header-top h1 {
+  grid-column: 2;
   text-align: center;
 }
 
-/* DETAIL nézet – saját container */
+
+
+.recipe-list-header-subtitle {
+  text-align: center;
+  opacity: 0.85;
+}
+
+.recipe-list-header-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- Push értesítés gomb --- */
+
+.push-enable-button {
+  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+
+  background: #252525;
+  color: #f5f5f5;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  transition: 0.2s ease;
+  white-space: nowrap;
+}
+
+.push-enable-button:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.push-enable-button:active {
+  transform: translateY(0);
+}
+
+.push-enable-button.is-on {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+
+
+/* Mobilon fejléc törés */
+@media (max-width: 520px) {
+  .recipe-list-header-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .push-enable-button {
+    width: 100%;
+  }
+}
+
+/* =========================
+   DETAIL NÉZET – CONTAINER
+   ========================= */
 
 .recipe-detail-container {
   max-width: 1500px;
@@ -49,17 +134,17 @@
   gap: 1.5rem;
 }
 
-/* Vissza gomb a detail nézethez */
+/* --- Vissza gomb --- */
 
 .back-button {
-  display: inline-flex;            /* ne legyen blokkelem */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 
   background: #252525;
   color: #f5f5f5;
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0.45rem 1.2rem;
   border-radius: 999px;
 
@@ -67,11 +152,11 @@
   font-weight: 500;
   cursor: pointer;
 
-  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   transition: 0.2s ease;
-  
-  max-width: max-content;         
-  margin-bottom: 1rem;             
+
+  max-width: max-content;
+  margin-bottom: 1rem;
 }
 
 .back-button:hover {
@@ -79,35 +164,33 @@
   transform: translateY(-1px);
 }
 
-
-/* DETAIL nézet – három oszlop 3:7:2 aránnyal
-   (RecipeDetails gyökérdiv: className="detail-layout") */
+/* =========================
+   DETAIL GRID – 3 : 7 : 2
+   ========================= */
 
 .detail-layout {
   --gap: 1.5rem;
   display: grid;
-  grid-template-columns: 3fr 7fr 2fr; /* 3 : 7 : 2 arány */
+  grid-template-columns: 3fr 7fr 2fr;
   column-gap: var(--gap);
   width: 100%;
   align-items: flex-start;
   box-sizing: border-box;
-
-  /* fontos: ne terjessze szét a tartalom a gridet */
   min-width: 0;
 }
 
 .detail-col {
   width: 100%;
-  /* a grid item se “ragaszkodjon” a min-content szélességhez */
   min-width: 0;
 }
 
-/* opcionális, extra biztosíték a kártya oszlopra */
 .detail-col--card {
   min-width: 0;
 }
 
-/* Mobil / kisebb kijelzők */
+/* =========================
+   RESPONSIVE
+   ========================= */
 
 @media (max-width: 1100px) {
   .detail-layout {
@@ -121,4 +204,3 @@
     grid-template-columns: 1fr;
   }
 }
-

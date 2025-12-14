@@ -2,15 +2,25 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"start": "vite",
-		"build": "vite build",
+		"build:sw": "esbuild src/sw.ts --bundle --format=iife --target=es2020 --outfile=public/sw.js",
+		"dev:frontend": "npm run build:sw && vite",
+		"dev:push": "node -r ts-node/register src/server/pushServer.ts",
+		"start": "concurrently -k -n FRONTEND,PUSH -c cyan,green \"npm run dev:frontend\" \"npm run dev:push\"",
+		"build": "npm run build:sw && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"preact": "^10.26.9"
+		"dotenv": "^17.2.3",
+		"express": "^5.2.1",
+		"preact": "^10.26.9",
+		"web-push": "^3.6.7"
 	},
 	"devDependencies": {
 		"@preact/preset-vite": "^2.10.2",
+		"@types/express": "^5.0.6",
+		"concurrently": "^9.2.1",
+		"esbuild": "^0.27.1",
+		"ts-node": "^10.9.2",
 		"typescript": "^5.9.3",
 		"vite": "^7.0.4"
 	}

@@ -18,6 +18,12 @@ import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 import { useRecipeFilters } from "../hooks/useRecipeFilters";
 import { useRecipeModals } from "../hooks/useRecipeModals";
 
+import { togglePush, isPushEnabled } from "../utils/push";
+import { notifyRecipeAdded } from "../utils/push";
+
+
+
+
 import "./CategoryList.css";
 import "./RecipeList.css";
 import "./CategoryForm.css";
@@ -30,6 +36,13 @@ import "./RecipeApp.css";
 
 export const RecipeApp = () => {
   // --- Adat hookok / domain state ---
+
+  const [pushEnabled, setPushEnabled] = useState(false);
+
+  useEffect(() => {
+    isPushEnabled().then(setPushEnabled).catch(() => setPushEnabled(false));
+  }, []);
+
 
   // Receptek (CRUD + localStorage)
   const { allRecipes, saveRecipe, deleteRecipe, clearCategoryFromRecipes } =
@@ -112,14 +125,18 @@ export const RecipeApp = () => {
     data: Omit<Recipe, "id">,
     idToUpdate?: number | null
   ) => {
-    // ha új kategória, vegyük fel
-    if (data.category) {
-      addCategory(data.category);
-    }
+    if (data.category) addCategory(data.category);
+
+    const isCreate = idToUpdate == null; 
 
     saveRecipe(data, idToUpdate ?? undefined);
     closeModal();
+
+    if (isCreate) {
+      notifyRecipeAdded(data.title).catch(console.error);
+    }
   };
+
 
   const handleDeleteRecipe = (id: number) => {
     deleteRecipe(id);
@@ -167,7 +184,28 @@ export const RecipeApp = () => {
               {/* Jobb oldal – recept kártyák */}
               <div className="recipe-main-content">
                 <div className="recipe-list-header">
-                  <h1>Receptlista</h1>
+                  <div className="recipe-list-header-top">
+                    <h1>Receptlista</h1>
+
+                    <button
+                      type="button"
+                      className={pushEnabled ? "push-enable-button is-on" : "push-enable-button"}
+                      onClick={async () => {
+                        try {
+                          const enabled = await togglePush();
+                          setPushEnabled(enabled);
+                        } catch (e) {
+                          console.error(e);
+                          alert("Hiba történt az értesítések kapcsolásakor.");
+                        }
+                      }}
+                      title={pushEnabled ? "Értesítések kikapcsolása" : "Értesítések bekapcsolása"}
+                    >
+                      {pushEnabled ? "🔔" : "🔕"}
+                    </button>
+
+                  </div>
+
                   <p className="recipe-list-header-subtitle">
                     {filteredRecipes.length === 0
                       ? "Még nincs recept – kattints a jobb alsó + gombra, hogy felvegyél egyet."
@@ -175,6 +213,7 @@ export const RecipeApp = () => {
                   </p>
                   <div className="recipe-list-header-divider" />
                 </div>
+
 
                 <RecipeList
                   recipes={filteredRecipes}
